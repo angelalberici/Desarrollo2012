@@ -1,0 +1,41 @@
+https://help.github.com/articles/generating-ssh-keys
+
+
+
+
+git config --global user.name "Angel Alberici"
+
+git config --global  user.email correo@tipo.com
+
+git init
+git status			Que ha cambiado desde el ultimo commit
+git add archivo.txt 
+git commit -m 'Add all the octocat txt files'
+git log
+git remote add origin git@github.com:angelalberici/try_git.git
+git push -u origin master
+
+
+git pull origin master
+git diff HEAD
+git add octofamily/octodog.txt
+git diff --staged
+git reset octofamily/octodog.txt   Ir cuando octodog no existia
+git checkout -- octocat.txt        Ir al ultimo commit que se le hizo a octocat
+
+
+git branch clean_up                Crear Branch
+git checkout clean_up              Seleccionar Branch
+git rm '*.txt' 		           Remover todos los txt del nuevo branch
+git commi­t -m "Remove all the cats"   
+git checkout master		   Cambiar al master branch
+git merge clean_up		   Merge este branch con el master (nos cambiamos en el anterior)
+git branch -d clean_up		   Delete el branch
+
+
+Añadir todos menos uno:
+git add -u
+git reset -- main/dontcheckmein.txt
+
+Añadir todos:
+git add --all
