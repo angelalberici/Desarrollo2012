@@ -10,8 +10,5 @@ package Modelo;
  */
 public class PruebaAngel {
     
-    //Jajajajaja
-    
-    
-    //Lol
+
 }
