@@ -21,9 +21,13 @@ public class LibretaManager {
     private static List<Libreta> LibretaList;
 
     public LibretaManager() {
-        
-        LibretaList = new LinkedList<Libreta>();
-        
+
+    }
+   
+
+    public void cargarLibreta() {
+         LibretaList = new LinkedList<Libreta>();
+         
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.gjt.mm.mysql.Driver");
         dataSource.setUrl("jdbc:mysql://localhost/desarrollo");
@@ -34,20 +38,33 @@ public class LibretaManager {
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 
         // operaciones DML
-        
+
         //int personas = jdbcTemplate.update("insert into dummy values ('otro','probando',1)");      
         //int personas1 = jdbcTemplate.update("delete from dummy where nombre='a'");
         //int personas2 = jdbcTemplate.update("update dummy set='q' where nombre='g'");
-        List<Map> rows = jdbcTemplate.queryForList("select * from libreta");
+        List<Map> rows = jdbcTemplate.queryForList("select * from libreta order by nombre ");
         for (Map row : rows) {
             Libreta libreta = new Libreta();
-            libreta.setId((String)row.get("id"));
-            libreta.setNombre((String)row.get("nombre"));
-            libreta.setUsuario_id((String)row.get("usuario_id"));
+            libreta.setId((String) row.get("id"));
+            libreta.setNombre((String) row.get("nombre"));
+            libreta.setUsuario_id((String) row.get("usuario_id"));
             LibretaList.add(libreta);
         }
        
-    } 
+    }
+    
+    public void eliminarLibreta (String id){
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName("org.gjt.mm.mysql.Driver");
+        dataSource.setUrl("jdbc:mysql://localhost/desarrollo");
+        dataSource.setUsername("root");
+        dataSource.setPassword("root");
+
+// La clase Spring con la Connection
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+       int personas1 = jdbcTemplate.update("delete from libreta where id="+id);
+
+    }
 
     public List<Libreta> getLibretaList() {
         return LibretaList;

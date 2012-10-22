@@ -22,5 +22,5 @@
                 
                 <bean name="/libreta.htm" 
 		class="com.mkyong.common.controller.LibretaController" />
-
+        
 </beans>
