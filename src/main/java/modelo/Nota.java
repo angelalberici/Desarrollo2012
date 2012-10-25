@@ -4,7 +4,7 @@ import java.security.Timestamp;
 import java.util.Date;
 
 public class Nota {
-	private String id;
+	private Integer id;
 	private String titulo;
 	private String texto;
         private String fecha;
@@ -26,11 +26,11 @@ public class Nota {
         this.fecha = fecha;
     }
         
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -18,8 +18,11 @@
     <bean name="/test1.htm" 
           class="com.mkyong.common.controller.HelloWorldController" />
                 
-    <bean name="/lista.htm" 
-          class="com.mkyong.common.controller.NotaListaController" />
-        
-
+    <bean name="/nota.htm" 
+          class="com.mkyong.common.controller.NotaController" />
+         
+    <bean name="/crearnota.htm" 
+          class="com.mkyong.common.controller.AddNotaController" />
+          
+          
 </beans>

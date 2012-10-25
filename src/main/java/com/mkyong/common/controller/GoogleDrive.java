@@ -1,3 +1,4 @@
+package com.mkyong.common.controller;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
@@ -11,6 +12,7 @@ import com.google.api.services.drive.Drive.Files;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import com.google.api.services.drive.model.ParentReference;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -29,20 +31,25 @@ public class GoogleDrive {
     private static final String REDIRECT_URI = "urn:ietf:wg:oauth:2.0:oob";
     private static Drive service;
 
-    public static void main(String[] args) throws IOException {
+    public GoogleDrive() throws IOException {
 
-        if (GoogleDrive.iniciarConexion() == 0) {
-            System.out.println("Error 1.00: Error al conectarse a Google Drive");
-        }
-        if (GoogleDrive.descargarArchivo(service, "0B5GGrI8FK4dcLW9wa1FaQ2ROY") == 0) {
-            System.out.println("Error 1.01: Error el archivo no existe");
-        }
-        if (GoogleDrive.mostrarArchivos() == null) {
-            System.out.println("No ha subido ningun archivo");
-        }
+        iniciarConexion();
 
     }
 
+//    public static void main(String[] args) throws IOException {
+//
+//        if (GoogleDrive.iniciarConexion() == 0) {
+//            System.out.println("Error 1.00: Error al conectarse a Google Drive");
+//        }
+////        if (GoogleDrive.descargarArchivo(service, "0B5GGrI8FK4dcLW9wa1FaQ2ROY") == 0) {
+////            System.out.println("Error 1.01: Error el archivo no existe");
+////        }
+////        if (GoogleDrive.mostrarArchivos() == null) {
+////            System.out.println("No ha subido ningun archivo");
+////        }
+//
+//    }
     /**
      * Iniciar conexion con google drive, se solicita autorizacion del usuario y
      * se adquiere un token.
@@ -75,7 +82,7 @@ public class GoogleDrive {
 
     }
 
-    private int cargarArchivo(File body) throws IOException {
+    public int cargarArchivo(File body) throws IOException {
         //        //Insert a file  
 //        File body = new File();
 //        body.setTitle("prueba.txt");
@@ -101,7 +108,7 @@ public class GoogleDrive {
      * @param fileId identificador del archivo a descargar
      * @return
      */
-    public static int descargarArchivo(Drive service, String fileId) {
+    public int descargarArchivo(Drive service, String fileId) {
         try {
             //        Descargar un archivo especifico 0B5GGrI8FK4dcLW9wa1FaQ2ROYzg
             File file = descargarMetadaDelArchivo(service, fileId);
@@ -150,7 +157,7 @@ public class GoogleDrive {
      * @return InputStream containing the file's content if successful,
      *         {@code null} otherwise.
      */
-    private static InputStream descargarContenidoDelArchivo(Drive service, File file) {
+    public InputStream descargarContenidoDelArchivo(Drive service, File file) {
         try {
             if (file.getDownloadUrl() != null && file.getDownloadUrl().length() > 0) {
 //                try {
@@ -181,7 +188,7 @@ public class GoogleDrive {
      * @param service Drive API service instance.
      * @param fileId ID of the file to get metadata for.
      */
-    private static File descargarMetadaDelArchivo(Drive service, String fileId) {
+    public File descargarMetadaDelArchivo(Drive service, String fileId) {
 
         try {
             File file = service.files().get(fileId).execute();
@@ -197,7 +204,7 @@ public class GoogleDrive {
 
     }
 
-    public static List<File> mostrarArchivos() throws IOException {
+    public List<File> mostrarArchivos() throws IOException {
 
         // Retrieve all list 
         List<File> rows = mostrarTodosLosArchivos(service);
@@ -219,7 +226,7 @@ public class GoogleDrive {
 
     }
 
-    private static List<File> mostrarTodosLosArchivos(Drive service) throws IOException {
+    public List<File> mostrarTodosLosArchivos(Drive service) throws IOException {
         List<File> result = new ArrayList<File>();
         Files.List request = service.files().list();
 
@@ -237,5 +244,31 @@ public class GoogleDrive {
                 && request.getPageToken().length() > 0);
 
         return result;
+    }
+
+    /**
+     * Insert a file into a folder.
+     *
+     * @param service Drive API service instance.
+     * @param folderId ID of the folder to insert the file into
+     * @param fileId ID of the file to insert.
+     * @return The inserted parent if successful, {@code null} otherwise.
+     */
+    public ParentReference insertFileIntoFolder(String folderId,
+            String fileId) {
+        
+        ParentReference newParent = new ParentReference();
+        newParent.setId(folderId);
+        try {
+            return service.parents().insert(fileId, newParent).execute();
+        } catch (IOException e) {
+            System.out.println("An error occurred: " + e);
+        }
+        return null;
+    }
+
+    public void delete(String idFile) throws IOException {
+//           service.files().delete(idFile).execute();
+        service.files().delete("0B5GGrI8FK4dcNnlXSHZiSUxYaDg").execute();
     }
 }
