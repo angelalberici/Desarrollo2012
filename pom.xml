@@ -20,6 +20,7 @@
         </dependency>
 
 		<!-- Spring MVC framework -->
+                
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -39,8 +40,8 @@
             <artifactId>spring-webmvc</artifactId>
             <version>3.1.2.RELEASE</version>
         </dependency>
-        
-        -->
+       -->  
+       
 		<!-- JSTL -->
         <dependency>
             <groupId>javax.servlet</groupId>
