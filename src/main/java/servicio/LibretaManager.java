@@ -4,9 +4,29 @@
  */
 package servicio;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.api.client.googleapis.auth.oauth2.GoogleTokenResponse;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson.JacksonFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.drive.model.File;
+import java.awt.Desktop;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import modelo.DbCon;
 import modelo.Libreta;
 import modelo.Nota;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,51 +39,39 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 public class LibretaManager {
 
     private static List<Libreta> LibretaList;
+    DriverManagerDataSource dataSource;
+    JdbcTemplate jdbcTemplate;
 
-    public LibretaManager() {
-
+    public LibretaManager() throws IOException {       
+        jdbcTemplate = DbCon.getInstance().getJdbcTemplate();
+        dataSource =  DbCon.getInstance().getDriverManagerDataSource();
     }
-   
 
-    public void cargarLibreta() {
-         LibretaList = new LinkedList<Libreta>();
-         
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.gjt.mm.mysql.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost/desarrollo");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
+    public void cargarLibreta(String correo) {
+        LibretaList = new LinkedList<Libreta>();
 
-// La clase Spring con la Connection
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-
-        // operaciones DML
-
-        //int personas = jdbcTemplate.update("insert into dummy values ('otro','probando',1)");      
-        //int personas1 = jdbcTemplate.update("delete from dummy where nombre='a'");
-        //int personas2 = jdbcTemplate.update("update dummy set='q' where nombre='g'");
-        List<Map> rows = jdbcTemplate.queryForList("select * from libreta order by nombre ");
+        List<Map> rows = jdbcTemplate.queryForList("select * from libreta where usuario_id='" + correo + "' order by nombre ");
         for (Map row : rows) {
             Libreta libreta = new Libreta();
-            libreta.setId((String) row.get("id"));
+            libreta.setId((Integer) row.get("id"));
             libreta.setNombre((String) row.get("nombre"));
             libreta.setUsuario_id((String) row.get("usuario_id"));
             LibretaList.add(libreta);
         }
-       
+
+    }
+
+    public void eliminarLibreta(String id) {
+        int personas = jdbcTemplate.update("delete from libreta where id='" + id + "'");
+
+    }
+
+    public void insertarLibreta(String nombre, String correo) {
+        int personas = jdbcTemplate.update("insert into libreta (nombre,usuario_id) values ('" + nombre + "','" + correo + "')");
     }
     
-    public void eliminarLibreta (String id){
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.gjt.mm.mysql.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost/desarrollo");
-        dataSource.setUsername("root");
-        dataSource.setPassword("root");
-
-// La clase Spring con la Connection
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-       int personas1 = jdbcTemplate.update("delete from libreta where id="+id);
-
+    public void modificarLibreta(int id, String nombre) {
+        int personas = jdbcTemplate.update("update libreta set nombre='"+nombre+"' where id="+id+"");
     }
 
     public List<Libreta> getLibretaList() {

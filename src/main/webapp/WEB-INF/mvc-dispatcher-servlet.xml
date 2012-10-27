@@ -14,13 +14,13 @@
 		</property>
 	</bean>
 
-	<bean name="/test1.htm" 
-		class="com.mkyong.common.controller.HelloWorldController" />
-                
-                	<bean name="/lista.htm" 
+             <bean name="/lista.htm" 
 		class="com.mkyong.common.controller.NotaListaController" />
                 
                 <bean name="/libreta.htm" 
 		class="com.mkyong.common.controller.LibretaController" />
+                
+                 <bean name="/autenticacion.htm" 
+		class="com.mkyong.common.controller.AutenticacionController" />
         
 </beans>

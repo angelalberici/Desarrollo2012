@@ -149,7 +149,7 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 <body>
 
 <div class="container">
-  <div class="header"><a href="#"><img src="banner2.png" alt="Insert Logo Here" name="Insert_logo" width="737" height="192" id="Insert_logo" style="background: #FFF; display:block;" /></a>
+  <div class="header"><a href="#"><img src="libretaBanner.png" alt="Insert Logo Here" name="Insert_logo" width="700" height="192" id="Insert_logo" style="background: #FFF; display:block;" /></a>
   <hr color="#300" size="5">
    
   
@@ -160,16 +160,16 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     <!-- end .sidebar1 --></div>
     <!-- COLUMNA DEL MEDIOOOOOOOOOOOOOOOOOOOOOOOOOOO -->
   <div class="content">
-    <h1>Libretas</h1> 
+    <h1>Libretas</h1>   
          <c:forEach items="${LibretaList}" var="libreta">
              <div class="sidebar2">
              ${libreta.nombre} 
              </div>
-            <a href="libreta.htm?id=${libreta.id}&opcion=1"><img src="n.png" width="30" height="22" style="margin-right:5px"></a>
-             <a href="libreta.htm?id=${libreta.id}&opcion=2"><img src="t.png" width="25" height="22"></a>
+            <a href="libreta.htm?id=${libreta.id}&opcion=1&correo=${mail}"><img src="n.png" width="30" height="22" style="margin-right:5px"></a>
+            <a href="libreta.htm?id=${libreta.id}&opcion=2&correo=${mail}"><img src="t.png" width="25" height="22"></a>
             
              <br><br/> 
-        </c:forEach>
+        </c:forEach>  
 
     <!-- end .content --></div>
     <!-- COLUMNA DERECHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -->
@@ -179,7 +179,8 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     <img src="search.png" style="margin-right:5px"> <br><br><br> 
     <!a href="libreta.htm?code="><!img src="n.png" width="30" height="22"></a>
     <!img src="t.png" width="25" height="22"> 
-    <img src="libreta.png" width="25" height="22"> 
+    
+    <a href="libreta.htm?opcion=3&correo=${mail}"><img src="libreta.png" width="25" height="22"> </a>
     <br><br><br><br><br><br><br><br><br><br>
     <!-- end .sidebar2 --></div>
     <!-- PIE DE PAGINA -->

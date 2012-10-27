@@ -14,40 +14,55 @@ import servicio.LibretaManager;
  *
  * @author Carlos
  */
-
-
 public class LibretaController implements Controller {
-  
 
     @Override
-      public ModelAndView handleRequest(HttpServletRequest request,
+    public ModelAndView handleRequest(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-         //1 es modificar 
-        // 2 es eliminar
-         LibretaManager libretaManager = new LibretaManager();
-         libretaManager.cargarLibreta();
-         
+        ModelAndView modelAndView = null;
+
+
         String opcion = (String) request.getParameter("opcion");
         String id = (String) request.getParameter("id");
-        System.out.println("la opcion "+opcion);
-        System.out.println("el id  es "+id);
-       if (opcion!=null){
-        if (opcion.equals("1")){
-            System.out.println("entro en el modificar");
-        }  
-       
-        if (opcion.equals("2")){
-            System.out.println("entro en el eliminar");
-            libretaManager.eliminarLibreta(id);
-            libretaManager.cargarLibreta();
+        String nombre = (String) request.getParameter("nombrelibreta");
+        String correo = (String) request.getParameter("correo");
+        String modificar = (String) request.getParameter("nombremodificado");
+
+        LibretaManager libretaManager = new LibretaManager();
+        libretaManager.cargarLibreta(correo);
+
+        if (opcion != null && id != null) {
+            if (opcion.equals("2")) {
+                libretaManager.eliminarLibreta(id);
+                libretaManager.cargarLibreta(correo);
+            }
         }
-       }
-       
-        ModelAndView modelAndView = new ModelAndView("Libreta");
-        modelAndView.addObject("LibretaList", libretaManager.getLibretaList());
+
+        if (nombre != null && !nombre.equals("")) {
+            libretaManager.insertarLibreta(nombre, correo);
+            libretaManager.cargarLibreta(correo);
+        }
+
+        if (modificar != null && !modificar.equals("")) {
+            libretaManager.modificarLibreta(Integer.parseInt(id), modificar);
+            libretaManager.cargarLibreta(correo);
+        }
         
+        if (opcion != null && opcion.equals("3")) {
+            modelAndView = new ModelAndView("AgregarLibreta");
+            modelAndView.addObject("mail", correo);
+        } else if (opcion != null && opcion.equals("1")) {
+            modelAndView = new ModelAndView("ModificarLibreta");
+            modelAndView.addObject("mail", correo);
+            modelAndView.addObject("idLibreta", id);
+        } else {
+            modelAndView = new ModelAndView("Libreta");
+            modelAndView.addObject("LibretaList", libretaManager.getLibretaList());
+            modelAndView.addObject("mail", correo);
+
+        }
+
         return modelAndView;
     }
-   
 }
