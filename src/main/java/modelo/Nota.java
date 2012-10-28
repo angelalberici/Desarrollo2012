@@ -1,10 +1,31 @@
 package modelo;
- 
+
+import java.security.Timestamp;
+import java.util.Date;
+
 public class Nota {
 	private Integer id;
 	private String titulo;
 	private String texto;
+        private String fecha;
+        private Integer libreta_id;
 
+    public Integer getLibreta_id() {
+        return libreta_id;
+    }
+
+    public void setLibreta_id(Integer libreta_id) {
+        this.libreta_id = libreta_id;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+        
     public Integer getId() {
         return id;
     }
@@ -28,6 +49,9 @@ public class Nota {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+
+
+ 
  
 
 }

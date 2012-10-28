@@ -13,7 +13,7 @@ import modelo.GetParameters;
 import modelo.PostParameters;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
-import servicio.NotaManager;
+import servicio.AutenticacionManager;
 
 /**
  *
@@ -21,6 +21,13 @@ import servicio.NotaManager;
  */
 public class AutenticacionController implements Controller {
     
+       /**
+     * 
+     * @param request recibimos el code si se le permite el acceso a la aplicacion y el error (acces_denied) si no se le permite el acceso. Segun estos parametros se direcciona a la vista correspondiente
+     * @param response
+     * @return
+     * @throws Exception 
+     */
     public ModelAndView handleRequest(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
             String  error = request.getParameter("error");
@@ -40,23 +47,15 @@ public class AutenticacionController implements Controller {
           if (code != null){
             PostParameters post = new PostParameters();  
             GetParameters get = new GetParameters();
+            AutenticacionManager insertar = new AutenticacionManager();
             token = post.sendPostRequest(code); 
             mail = get.sendGetRequest(token);
+            insertar.insertarUsuario(mail);
             
             modelAndView = new ModelAndView("Autenticacion");
             modelAndView.addObject("autenticacion",code); 
             modelAndView.addObject("correo",mail); 
-            
-           // System.out.println("el mail es: "+mail);
-           // System.out.println("el acces token es: "+token);
-            
-            
-            
-            
-            // aqui metodo para llamar a la BD e insertar el correo 
-            // crear objeto con el correo mail 
-             
-             
+                         
           }
        
     return  modelAndView;

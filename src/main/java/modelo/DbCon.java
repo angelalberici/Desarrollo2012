@@ -48,12 +48,12 @@ public class DbCon {
 
         return null;
     }
-    
-    public JdbcTemplate getJdbcTemplate (){
-       return this.jdbcTemplate;
+
+    public JdbcTemplate getJdbcTemplate() {
+        return this.jdbcTemplate;
     }
-    
-    public DriverManagerDataSource getDriverManagerDataSource(){
+
+    public DriverManagerDataSource getDriverManagerDataSource() {
         return this.dataSource;
     }
 
@@ -62,7 +62,7 @@ public class DbCon {
      *
      * @return una Nota con el id que se busca
      */
-    /*public Nota entregarNota(Integer id) {
+    public Nota entregarNota(Integer id) {
 
         try {
             String sql = "SELECT id,titulo,texto,fecha FROM NOTA where id=" + id;
@@ -86,14 +86,14 @@ public class DbCon {
             return null;
         }
 
-    }*/
+    }
 
     /**
      * Buscar la lista de todas las notas en la BD y devolverla
      *
      * @return Lista de notas actual de la BD
      */
-   /* public List<Nota> entregarTodasLasNotas(Integer libretaid) {
+    public List<Nota> entregarTodasLasNotas(Integer libretaid) {
 
 
         String sql = "SELECT id,titulo,texto,fecha FROM NOTA where libreta_id=" + libretaid;
@@ -110,7 +110,7 @@ public class DbCon {
             listaNota.add(nota);
         }
         return listaNota;
-    }*/
+    }
 
     /**
      * Se elimina una nota particular, todos sus adjuntos y todas sus
@@ -119,8 +119,7 @@ public class DbCon {
      * @param id pertenece a la nota que se quiere eliminar
      * @return 0 si existio algun problema, 1 si fue exitosa
      */
-    /*public int eliminarNota(Integer id) {
-        //ELIMINAR EN GOOGLE DRIVE adjuntos de la nota OJO
+    public int eliminarNota(Integer id) {
         try {
             return jdbcTemplate.update("delete from nota where id=" + id);
         } catch (Exception e) {
@@ -128,7 +127,7 @@ public class DbCon {
             return 0;
         }
 
-    }*/
+    }
 
     /**
      * Se inserta la nota en la base de datos
@@ -138,7 +137,7 @@ public class DbCon {
      * @param adjuntos si no hay adjuntos, se pasa null
      * @return 0 si existio algun problema, 1 si fue exitosa
      */
-    /*public int crearNota(Nota nota, List<Tag> tags, List<Adjunto> adjuntos) {
+    public int crearNota(Nota nota, List<Tag> tags, List<Adjunto> adjuntos) {
         try {
             if (nota != null) {
 
@@ -150,7 +149,7 @@ public class DbCon {
                 }
 
                 modificarTagsDeNota(nota.getId(), tags);
-                
+
                 modificarAdjuntosDeNota(nota.getId(), adjuntos);
 
                 return 1;
@@ -161,7 +160,7 @@ public class DbCon {
             //Ya existe la primary key, esto no deberia pasar usando google drive
             return 0;
         }
-    }*/
+    }
 
     /**
      * Se le pasa la nota a modificar y se actualiza la nota original con esta
@@ -170,11 +169,11 @@ public class DbCon {
      * @param nota actualizacion de la nota anterior
      * @return 0 si existio algun problema, 1 si fue exitosa
      */
-    /*public int modificarNota(Nota nota) {
+    public int modificarNota(Nota nota) {
         jdbcTemplate.update("update nota set titulo='" + nota.getTitulo() + "',texto='" + nota.getTexto()
                 + "',fecha=NOW() where id=" + nota.getId());
         return 0;
-    }*/
+    }
 
     /**
      * Sirve para actualizar el campo fecha cada vez que se haga una
@@ -183,7 +182,7 @@ public class DbCon {
      * @param notaid se pasa Null si la nota es nueva
      * @return 1 si fue exitoso, 0 si no
      */
-    /*public int actualizarFecha(Integer notaid) {
+    public int actualizarFecha(Integer notaid) {
         try {
             if (notaid == null) {
                 System.out.println("update nota set fecha=NOW() where id=(SELECT max( id ) FROM nota");
@@ -198,7 +197,7 @@ public class DbCon {
             return 0;
         }
 
-    }*/
+    }
 
     /**
      * Se agrega la nueva lista de tags a la nota especificada
@@ -207,7 +206,6 @@ public class DbCon {
      * @param tags lista de tags asociados a esa nota
      * @return 0 si existio algun problema, 1 si fue exitosa
      */
-    /*
     public int modificarTagsDeNota(Integer notaid, List<Tag> tags) {
 
         if (tags != null) {
@@ -219,20 +217,26 @@ public class DbCon {
             }
             for (Tag tag : tags) {
                 try {
-                    System.out.println("insert into tag(nombre) values ('" + tag.getNombre() + "')");
                     jdbcTemplate.update("insert into tag(nombre) values ('" + tag.getNombre() + "')");
                     actualizarFecha(notaid);
                 } catch (Exception e) {
-                    //Si ya existe tag, se genera un error pero no es relevante
+                    //Si ya existe tag, se genera un error pero con controlar la excepcion se soluciona el problema
                 }
-                jdbcTemplate.update("insert into nota_tag(nota_id,tag_nombre) values ((SELECT max( id ) FROM nota),'" + tag.getNombre() + "')");
+                if (notaid != null) {
+                    System.out.println("insert into nota_tag(nota_id,tag_nombre) values (" + notaid + ",'" + tag.getNombre() + "')");
+                    jdbcTemplate.update("insert into nota_tag(nota_id,tag_nombre) values (" + notaid + ",'" + tag.getNombre() + "')");
+                } else {
+                    jdbcTemplate.update("insert into nota_tag(nota_id,tag_nombre) values ((SELECT max( id ) FROM nota),'" + tag.getNombre() + "')");
+                }
+
+
             }
             return 1;
         }
 
 
         return 0;
-    }*/
+    }
 
     /**
      * Se agrega la nueva lista de adjuntos a la nota especificado, no son los
@@ -242,7 +246,7 @@ public class DbCon {
      * @param adjuntos
      * @return 0 si existio algun problema, 1 si fue exitosa
      */
-   /* public int modificarAdjuntosDeNota(Integer notaid, List<Adjunto> adjuntos) {
+    public int modificarAdjuntosDeNota(Integer notaid, List<Adjunto> adjuntos) {
         if (adjuntos != null) {
             if (notaid != null) {
                 jdbcTemplate.update("delete from adjunto where nota_id=" + notaid);
@@ -250,12 +254,12 @@ public class DbCon {
                 jdbcTemplate.update("delete from adjunto where nota_id=(SELECT max( id ) FROM nota)");
             }
             for (Adjunto adjunto : adjuntos) {
-               
+
 
                 if (notaid != null) {
-                     jdbcTemplate.update("insert into adjunto(id,nombre,nota_id) values ('" + adjunto.getId() + "','" + adjunto.getNombre() + "',"+notaid+")");
+                    jdbcTemplate.update("insert into adjunto(id,nombre,nota_id) values ('" + adjunto.getId() + "','" + adjunto.getNombre() + "'," + notaid + ")");
                 } else {
-                     jdbcTemplate.update("insert into adjunto(id,nombre,nota_id) values ('" + adjunto.getId() + "','" + adjunto.getNombre() + "',(SELECT max( id ) FROM nota) )");
+                    jdbcTemplate.update("insert into adjunto(id,nombre,nota_id) values ('" + adjunto.getId() + "','" + adjunto.getNombre() + "',(SELECT max( id ) FROM nota) )");
                 }
 
 
@@ -264,5 +268,24 @@ public class DbCon {
             return 1;
         }
         return 0;
-    }*/
+    }
+
+    /**
+     * Se mueve nota de una libreta a otra
+     *
+     * @param nota nota que se mueve
+     * @param libreta libreta a la que se mueve
+     * @return
+     */
+    public String moverNota(Integer nota, Integer libreta) {
+        try {
+            jdbcTemplate.update("update nota set libreta_id=" + libreta + " where id=" + nota);
+            return ("update nota set libreta_id=" + libreta + " where id=" + nota);
+
+        } catch (Exception e) {
+            // No existe la nota que se quiere eliminar.
+            return null;
+        }
+
+    }
 }

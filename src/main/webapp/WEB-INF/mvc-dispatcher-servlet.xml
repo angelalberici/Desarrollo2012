@@ -1,26 +1,36 @@
+
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/pages/</value>
-		</property>
+    <bean id="viewResolver"
+              class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/WEB-INF/pages/</value>
+        </property>
                 
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
-	</bean>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
 
-             <bean name="/lista.htm" 
-		class="com.mkyong.common.controller.NotaListaController" />
+    <bean name="/lista.htm" 
+                   class="com.mkyong.common.controller.NotaListaController" />
                 
-                <bean name="/libreta.htm" 
-		class="com.mkyong.common.controller.LibretaController" />
+    <bean name="/libreta.htm" 
+                      class="com.mkyong.common.controller.LibretaController" />
                 
-                 <bean name="/autenticacion.htm" 
-		class="com.mkyong.common.controller.AutenticacionController" />
-        
+    <bean name="/autenticacion.htm" 
+                       class="com.mkyong.common.controller.AutenticacionController" />
+                
+    <bean name="/nota.htm" 
+                          class="com.mkyong.common.controller.NotaController" />
+         
+    <bean name="/crearnota.htm" 
+          class="com.mkyong.common.controller.AddNotaController" />
+          
+    <bean name="/movernota.htm" 
+          class="com.mkyong.common.controller.MoverNotaController" />   
+    
 </beans>

@@ -5,6 +5,9 @@
 package servicio;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 import modelo.DbCon;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -18,10 +21,22 @@ public class AutenticacionManager {
     DriverManagerDataSource dataSource;
     JdbcTemplate jdbcTemplate;
 
-    public void insertarUsuario(String correo) throws IOException {
+    /**
+     * procedimiento para insertar un usuario
+     * @param correo el correo del usuario 
+     * @throws IOException  
+     */
+    public void insertarUsuario(String correo) throws IOException  {
+        String verificar = "";
         jdbcTemplate = DbCon.getInstance().getJdbcTemplate();
         dataSource =  DbCon.getInstance().getDriverManagerDataSource();
-        int personas = jdbcTemplate.update("insert into usuario values ('" + correo + "'");
+         List<Map> rows = jdbcTemplate.queryForList("select * from usuario where correo='" + correo + "'");
+        for (Map row : rows) {
+           verificar = (String)row.get("correo");
+        }
+       if (verificar.equals("")){ 
+         int personas = jdbcTemplate.update("insert into usuario values ('" + correo + "')");
+       }
     }
 }
 

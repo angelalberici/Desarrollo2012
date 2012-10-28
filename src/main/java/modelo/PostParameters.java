@@ -7,16 +7,14 @@ import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-/**
- * Main.java
- *
- * @author www.javadb.com
- */
+
 public class PostParameters {
     
-    /**
-     * Extends the size of an array.
-     */
+   /**
+ * 
+ * @param code recibe el code para hacer un POST y obtener el token que se necesitará para acceder a los datos del usuario
+ * @return  retorna el token 
+ */
     public String sendPostRequest(String code) {
         
         //Build parameter string
@@ -43,17 +41,15 @@ public class PostParameters {
             String[] split1,split2;
             int CONT = 0;
             while ((line = reader.readLine()) != null) {
-                //System.out.println(line);
+
               if (CONT==1){    
                 split1 = line.split(",");
                 split2 = split1[0].split(":");
                 for (int i = 2;i<split2[1].length()-1;i++) {
                     token = token+split2[1].charAt(i);
                 }
-                
-                 // System.out.println("el token "+token);
                 return token;  
-               // break;
+ 
               }
                   CONT++;
                 answer.append(line);
@@ -63,12 +59,7 @@ public class PostParameters {
             
             writer.close();
             reader.close();
-            
-            //Output the response
-            //System.out.println(answer.toString());
-            
-            //System.out.println(content);
-            
+                        
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {

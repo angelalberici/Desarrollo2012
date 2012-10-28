@@ -47,6 +47,10 @@ public class LibretaManager {
         dataSource =  DbCon.getInstance().getDriverManagerDataSource();
     }
 
+    /**
+     * procedimiento para cargar todas libretas de un usuario
+     * @param correo  el correo del usuario que se registra
+     */
     public void cargarLibreta(String correo) {
         LibretaList = new LinkedList<Libreta>();
 
@@ -61,19 +65,37 @@ public class LibretaManager {
 
     }
 
+    /*
+     * procedimiento para eliminar una libreta
+     * @param id el id de la libreta
+     */
     public void eliminarLibreta(String id) {
         int personas = jdbcTemplate.update("delete from libreta where id='" + id + "'");
 
     }
 
+    /**
+     * procedimiento para insertar un libreta
+     * @param nombre el nombre que se le va a dar a la libreta
+     * @param correo  el correo del usuario que creo esa libreta
+     */
     public void insertarLibreta(String nombre, String correo) {
         int personas = jdbcTemplate.update("insert into libreta (nombre,usuario_id) values ('" + nombre + "','" + correo + "')");
     }
     
+    /**
+     * procedimiento para modificar una libreta
+     * @param id el id de la libreta
+     * @param nombre  el nombre nuevo que se le quiere dar a la libreta
+     */
     public void modificarLibreta(int id, String nombre) {
         int personas = jdbcTemplate.update("update libreta set nombre='"+nombre+"' where id="+id+"");
     }
 
+    /**
+     * funcion que retorna la lista con todas las libretas de la Base de datos
+     * @return  retorna la lista con las libretas de la BD de un usuario en particular
+     */
     public List<Libreta> getLibretaList() {
         return LibretaList;
     }

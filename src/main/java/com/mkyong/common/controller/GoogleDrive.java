@@ -36,20 +36,6 @@ public class GoogleDrive {
         iniciarConexion();
 
     }
-
-//    public static void main(String[] args) throws IOException {
-//
-//        if (GoogleDrive.iniciarConexion() == 0) {
-//            System.out.println("Error 1.00: Error al conectarse a Google Drive");
-//        }
-////        if (GoogleDrive.descargarArchivo(service, "0B5GGrI8FK4dcLW9wa1FaQ2ROY") == 0) {
-////            System.out.println("Error 1.01: Error el archivo no existe");
-////        }
-////        if (GoogleDrive.mostrarArchivos() == null) {
-////            System.out.println("No ha subido ningun archivo");
-////        }
-//
-//    }
     /**
      * Iniciar conexion con google drive, se solicita autorizacion del usuario y
      * se adquiere un token.
@@ -83,11 +69,6 @@ public class GoogleDrive {
     }
 
     public int cargarArchivo(File body) throws IOException {
-        //        //Insert a file  
-//        File body = new File();
-//        body.setTitle("prueba.txt");
-//        body.setDescription("A test document");
-//        body.setMimeType("text/plain");
         try {
             java.io.File fileContent = new java.io.File(body.getTitle());
             FileContent mediaContent = new FileContent(null, fileContent);
@@ -160,16 +141,10 @@ public class GoogleDrive {
     public InputStream descargarContenidoDelArchivo(Drive service, File file) {
         try {
             if (file.getDownloadUrl() != null && file.getDownloadUrl().length() > 0) {
-//                try {
                 HttpResponse resp =
                         service.getRequestFactory().buildGetRequest(new GenericUrl(file.getDownloadUrl())).execute();
                 return resp.getContent();
-//                } catch (IOException e) {
-//                    // An error occurred.
-//                    System.out.println("Error  1.1");
-//                    e.printStackTrace();
-//                    return null;
-//                }
+
             } else {
                 System.out.println("Error 1.2 No url");
                 // The file doesn't have any content stored on Drive.
@@ -268,7 +243,6 @@ public class GoogleDrive {
     }
 
     public void delete(String idFile) throws IOException {
-//           service.files().delete(idFile).execute();
         service.files().delete("0B5GGrI8FK4dcNnlXSHZiSUxYaDg").execute();
     }
 }

@@ -17,16 +17,12 @@ import java.net.URLConnection;
 
 public class GetParameters {
 
-    /**
-     * Sends an HTTP GET request to a url
-     *     
-* @param endpoint - The URL of the server. (Example: "
-     * http://www.yahoo.com/search")
-     * @param requestParameters - all the request parameters (Example:
-     * "param1=val1&param2=val2"). Note: This method will add the question mark
-     * (?) to the request - DO NOT add it yourself
-     * @return - The response from the end point
-     */
+ 
+/**
+ * 
+ * @param token recibe el token para hacer un get en la pagina https://www.googleapis.com/oauth2/v1/userinfo para obtener el correo del usuario
+ * @return retorna el correo del usuario
+ */
     public String sendGetRequest(String token) {
         
         String link = "https://www.googleapis.com/oauth2/v1/userinfo?access_token="+token;
