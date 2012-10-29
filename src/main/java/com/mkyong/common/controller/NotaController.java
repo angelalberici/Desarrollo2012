@@ -7,6 +7,7 @@ package com.mkyong.common.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.DbCon;
 import modelo.Nota;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,18 +20,24 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 /**
- *
+ * Se controla a la vista notaList, se reciben 
  * @author Angel Alberici
  */
 public class NotaController implements Controller{
 
     public ModelAndView handleRequest(HttpServletRequest arg0,
             HttpServletResponse arg1) throws Exception {
+  
 
-        NotaManager notaManager = new NotaManager();
+        
+              if (arg0.getParameter("b") != null ) {
+            DbCon.getInstance().eliminarNota(Integer.parseInt(arg0.getParameter("b")));
+        }
+              Integer libreta = Integer.parseInt(arg0.getParameter("l"));
+              
         ModelAndView modelAndView = new ModelAndView("notaList");
-        modelAndView.addObject("notaList", notaManager.getNotaList());
-
+        modelAndView.addObject("notaList",DbCon.getInstance().entregarTodasLasNotas(libreta));
+modelAndView.addObject("libreta",arg0.getParameter("l"));
         return modelAndView;
     }
 

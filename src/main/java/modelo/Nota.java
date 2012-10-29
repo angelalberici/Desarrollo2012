@@ -8,13 +8,13 @@ public class Nota {
 	private String titulo;
 	private String texto;
         private String fecha;
-        private String libreta_id;
+        private Integer libreta_id;
 
-    public String getLibreta_id() {
+    public Integer getLibreta_id() {
         return libreta_id;
     }
 
-    public void setLibreta_id(String libreta_id) {
+    public void setLibreta_id(Integer libreta_id) {
         this.libreta_id = libreta_id;
     }
 

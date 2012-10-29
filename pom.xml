@@ -96,6 +96,14 @@
             <version>1.10.3-beta</version>
         </dependency>
         
+        
+        <!-- Ckeditor: el menu de edicion de texto -->
+        <dependency>
+	<groupId>com.ckeditor</groupId>
+	<artifactId>ckeditor-java-core</artifactId>
+	<version>3.5.3</version>
+</dependency>
+
     </dependencies>
 
     <build>

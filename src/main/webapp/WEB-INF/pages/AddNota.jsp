@@ -1,5 +1,6 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -162,26 +163,31 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     <!-- end .sidebar1 --></div>
     <!-- COLUMNA DEL MEDIOOOOOOOOOOOOOOOOOOOOOOOOOOO -->
   <div class="content">
+
+
+<form id="create-note-form" action="#" method="POST">
+    <fieldset>
+      <legend>Creación de Nota</legend>
+      <label id="title-frm-label" for ="htte-frm">
+        Título:  
+      </label>
+      <input id="tittle-frm" name="titulo" type="text" VALUE="${nota.titulo}"/>
+      <textarea name="texto" rows="10" cols="70">${nota.texto}</textarea><br></br>
+       Tags:
+      <textarea name="tags" rows="2" cols="70"></textarea><br></br>
+      <button type="submit"> <img src="imagenes/crearNota2.png" ></button>
       
-          <c:forEach items="${notaList}" var="nota">
-            <input TYPE=checkbox name=sports VALUE="${nota.id}">
-            <a name="i" href="/SpringMVC/crearnota.htm#b=${nota.id}" rel="${nota.id}" ></a><br />
-             <br>
-            Fecha: ${nota.fecha} <br>
-            <br />
-        </c:forEach>
-            
-      <input type="text" value="${nota.titulo}"  maxlength="70" name="titulo" ><br></br>
-            <textarea maxlength="5" value="${nota.texto}" placeholder="Escriba aquí" name="texto" rows="10" cols="70"></textarea><br></br>
-            Tags:
-            <textarea maxlength="5" name="texto" rows="2" cols="70"></textarea><br></br>
+    </fieldset>
+</form>
+
+<a href="movernota.htm?correo=${correo}&b=${nota.id}">Mover a otra libreta</a><br />
+
 
     <!-- end .content --></div>
     <!-- COLUMNA DERECHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -->
   <div class="sidebar2">
     <!-- <h4>Backgrounds</h4> -->
-        <a href="#"><img src="imagenes/crearNota2.png" ></img></a>
-        <a href="#"><img src="imagenes/crearNota.png" ></img></a>
+
     <br><br><br><br><br><br><br><br><br><br>
     <!-- end .sidebar2 --></div>
     <!-- PIE DE PAGINA -->
@@ -192,20 +198,5 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 </body>
 </html>
 
-
-        <%! String[] sports;%>
-    <center>You have selected: 
-        <%
-        
-        
-            sports = request.getParameterValues("sports");
-            if (sports != null) {
-                for (int i = 0; i < sports.length; i++) {
-                    out.println("<b>" + sports[i] + "<b>");
-                }
-            } else {
-                out.println("<b>none<b>");
-            }
-        %>
 
     </center>

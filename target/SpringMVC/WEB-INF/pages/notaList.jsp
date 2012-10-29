@@ -168,11 +168,11 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
         
         <c:forEach items="${notaList}" var="nota">
             <input TYPE=checkbox name=sports VALUE="${nota.id}">
-            <a name="i" href="/SpringMVC/crearnota.htm?b=${nota.id}" rel="${nota.id}" >${nota.titulo}</a><br />
+            <a name="i" href="/SpringMVC/crearnota.htm?l=${libreta}&b=${nota.id}" rel="${nota.id}" >${nota.titulo}</a><br />
             ${nota.texto} <br>
             Fecha: ${nota.fecha} <br>
             <br />
-            <a href="nota.htm?b=${nota.id}"><img src="imagenes/t.png" width="25" height="22"> </img></a><br />
+            <a href="nota.htm?l=${libreta}&b=${nota.id}"><img src="imagenes/t.png" width="25" height="22"> </img></a><br />
         </c:forEach>
 
     <!-- end .content --></div>
@@ -181,8 +181,8 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     <!-- <h4>Backgrounds</h4> -->
     <input type="text" size="17" >
     <img src="imagenes/search.png" style="margin-right:5px"> <br><br><br> 
-                    <a href="#"><img src="imagenes/n.png" width="30" height="22"></img></a>
-                    <a href="#"><img src="imagenes/t.png" width="25" height="22"> </img></a>
+
+                    <a href="crearnota.htm?l=${libreta}"><img src="imagenes/crearNota2.png" width="25" height="22"> </img></a>
     <br><br><br><br><br><br><br><br><br><br>
     <!-- end .sidebar2 --></div>
     <!-- PIE DE PAGINA -->

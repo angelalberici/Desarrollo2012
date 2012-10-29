@@ -9,15 +9,15 @@ package modelo;
  * @author Angel Alberici
  */
 public class Libreta {
-    private String id;
+    private Integer id;
     private String nombre;
     private String usuario_id;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
