@@ -167,7 +167,7 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
              </div>
             <a href="libreta.htm?id=${libreta.id}&opcion=1&correo=${mail}"><img src="n.png" width="30" height="22" style="margin-right:5px"></a>
             <a href="libreta.htm?id=${libreta.id}&opcion=2&correo=${mail}"><img src="t.png" width="25" height="22"></a>
-             
+             <img src="separador.jpeg"   id="separador" style="background: #FFF; display:block;" />
              <br><br/> 
         </c:forEach>  
 

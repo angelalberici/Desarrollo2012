@@ -15,10 +15,10 @@ public class PostParameters {
  * @param code recibe el code para hacer un POST y obtener el token que se necesitará para acceder a los datos del usuario
  * @return  retorna el token 
  */
-    public String sendPostRequest(String code) {
+    public String sendPostRequest(String code) throws IOException {
         
         //Build parameter string
-      
+         Usuario.getInstance().setCode(code);
         String data = "code="+code+"&client_id=830695509204-746t1u95vf6reenns3u53kog8as9e17n.apps.googleusercontent.com&client_secret=GEK8rpk0Z3qiGk2_Ya7a5mdC&redirect_uri=http://localhost:8080/SpringMVC/autenticacion.htm&grant_type=authorization_code";
         String token = "";
         try {
@@ -48,6 +48,7 @@ public class PostParameters {
                 for (int i = 2;i<split2[1].length()-1;i++) {
                     token = token+split2[1].charAt(i);
                 }
+                Usuario.getInstance().setToken(token);
                 return token;  
  
               }

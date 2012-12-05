@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+﻿?<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -175,8 +175,16 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 <tr>
 <td>
 <!--<input type="button" class="botonimagen" > -->
-<a href="https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&state=%2Fprofile&redirect_uri=http://localhost:8080/SpringMVC/autenticacion.htm&response_type=code&client_id=830695509204-746t1u95vf6reenns3u53kog8as9e17n.apps.googleusercontent.com&approval_prompt=force
-"> <img src ="button.png"></a>
+
+<form id="id-autenticar" action="http://localhost:8080/SpringMVC/autenticar.htm">
+<a href="https://accounts.google.com/o/oauth2/auth?scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile https://www.googleapis.com/auth/drive&state=%2Fprofile&redirect_uri=http://localhost:8080/SpringMVC/autenticacion.htm&response_type=code&client_id=830695509204-746t1u95vf6reenns3u53kog8as9e17n.apps.googleusercontent.com&approval_prompt=force
+
+"> <img src ="button.png"></a> <!--<input type="button" class="botonimagen" > -->
+
+<input type="submit" ></input>
+
+</form>
+
 </table>
 </td>
 </tr>
@@ -186,7 +194,7 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
   <div class="sidebar2">
     <!-- <h4>Backgrounds</h4> -->
     <br><br><br><br><br>
-   <img src="GoogleDriveIcon2.png" align="right">
+  <img src="GoogleDriveIcon2.png" align="right">
  
     
     <!-- end .sidebar2 --></div>

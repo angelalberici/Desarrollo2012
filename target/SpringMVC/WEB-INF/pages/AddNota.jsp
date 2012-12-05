@@ -1,5 +1,6 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -82,11 +83,11 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 	float: left;
 }
 .sidebar2 {
-	float: left;
-	width: 180px;
+	float: right;
+	width: 120px;
 	background: #FFF;
 	padding: 10px 0;
-	margin:auto
+	margin:right;
 	
 }
 
@@ -149,6 +150,13 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 </style></head>
 
 <body>
+<script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+<script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
+<div id="sample">
+<script type="text/javascript" src="../nicEdit.js"></script>
+<script type="text/javascript">
+	bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+</script>
 
 <div class="container">
   <div class="header"><a href="#"><img src="banner2.png" alt="Insert Logo Here" name="Insert_logo" width="737" height="192" id="Insert_logo" style="background: #FFF; display:block;" /></a>
@@ -171,25 +179,31 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
         Título:  
       </label>
       <input id="tittle-frm" name="titulo" type="text" VALUE="${nota.titulo}"/>
-      
+      <br></br>
       <input type="hidden" id="title-frm" value="${mail}" name="correo">
       <input type="hidden" id="title-frm" value="${libreta}" name="l"> 
       <input type="hidden" id="title-frm" value="${idNota}" name="b">  
       
           <textarea name="texto" rows="10" cols="70">${nota.texto}</textarea><br></br>
-       Tags:
-      <textarea name="tags" rows="2" cols="70"></textarea><br></br>
-      <button type="submit"> <img src="crearNota2.png" ></button>
+          
+          Tags: 
+      <input name="tags" rows="2" cols="70">
+<c:forEach items="${nota.tags}" var="tag">${tag.nombre},</c:forEach>
+
+       
+      </input><br />
+      
+
+
+      <button title="Crear esta nota" type="submit"> <img src="crearNota2.png" ></button>
       
     </fieldset>
 </form>
-  
+<br></br>
  <a href="movernota.htm?correo=${mail}&b=${nota.id}">Mover a otra libreta</a><br />
-
+ <br></br>
        
-    <form id="regresar-libreta-form" action ="http://localhost:8080/SpringMVC/nota.htm" method="post" >
-        <input type="hidden" id="title-frm" value="${mail}" name="correo">
-         <input type="hidden" id="title-frm" value="${libreta}" name="l">
+    <form id="regresar-libreta-form" action ="http://localhost:8080/SpringMVC/nota.htm?l=${libreta}&correo=${mail}" method="post" >
        <button type="submit"> Regresar </button>
     </form>
 

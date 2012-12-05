@@ -1,9 +1,16 @@
 <%@page import="java.text.SimpleDateFormat"%>
+
+<%@ include file="/jsp/includes.jsp" %>
+<%@ taglib prefix="tg" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    
+
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="paginado.css" />
 <title>Notas</title>
 <style type="text/css">
 <!--
@@ -45,14 +52,14 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 /* ~~ This fixed width container surrounds all other divs ~~ */
 .container {
 	width: 960px;
-	background: #FFF;
+	background: #F2F2F2;
 	margin: 0 auto; /* the auto value on the sides, coupled with the width, centers the layout */
 
 }
 
 /* ~~ The header is not given a width. It will extend the full width of your layout. It contains an image placeholder that should be replaced with your own linked logo. ~~ */
 .header {
-	background: #FFF;
+	background: #F2F2F2;
 	margin-left:20px;
 	margin-right:20px;
 
@@ -72,7 +79,7 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 .sidebar1 {
 	float: left;
 	width: 180px;
-	background: #FFF;
+	background: #F2F2F2;
 	padding-bottom: 10px;
 }
 .content {
@@ -84,7 +91,7 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 .sidebar2 {
 	float: left;
 	width: 180px;
-	background: #FFF;
+	background: #F2F2F2;
 	padding: 10px 0;
 	margin:auto
 	
@@ -148,13 +155,24 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 -->
 </style></head>
 
-<body>
-
-<div class="container">
-  <div class="header"><a href="#"><img src="banner2.png" alt="Insert Logo Here" name="Insert_logo" width="737" height="192" id="Insert_logo" style="background: #FFF; display:block;" /></a>
+<body><TABLE BORDER="0" cellpadding="0" CELLSPACING="0">
+<TR>
+<TD WIDTH="1300" HEIGHT="25" BACKGROUND="barrabanner.png"  align="right" >
+    <FONT SIZE="3" COLOR="white" >${mail}</FONT>
+    <img src="avatar.png"  width="30" height="30" id="avatar" style="background: #F2F2F2; display:block;" align="right"/>    
+    <a href=" https://www.google.com/accounts/Logout?service=wise&continue=https://drive.google.com/"> 
+        <FONT SIZE="3" COLOR="white" > (Sign out) </FONT>
+</a>
+</TD>
+</TR>
+</TABLE>
+    
+    <div class="container" style="">
+  <div class="header"><a href="#"><img src="banner2.png" alt="Insert Logo Here" name="Insert_logo" style="margin-left:40px" width="737" height="192" id="Insert_logo" style="background: #F2F2F2; display:block;" />
+      </a>
   <hr color="#300" size="5">
+
    
-  
     <!-- end .header --></div>
      <!-- COLUMNA IZQUIERDAAAAAAAAAAAAAAAAAA -->
   <div class="sidebar1">
@@ -162,25 +180,52 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     <!-- COLUMNA DEL MEDIOOOOOOOOOOOOOOOOOOOOOOOOOOO -->
   <div class="content">
     <h1>Notas</h1>
+  
+<%-- // use our pagedListHolder --%>
+<jsp:useBean id="pagedListHolder" scope="request" type="org.springframework.beans.support.PagedListHolder"/>
+<%-- // create link for pages, "~" will be replaced later on with the proper page number --%>
+<c:url value="nota.htm${url}" var="pagedLink">
+	<c:param name="action" value="list"/>
+    <c:param name="p" value="~"/>
+</c:url>
 
-        
-        
-        <c:forEach items="${notaList}" var="nota">
-           <div class="sidebar1">  
+
+<%-- // show only current page worth of data --%>
+<table width="200px" border="1">
+
+<c:forEach items="${pagedListHolder.pageList}" var="nota">
+
+        <div class="sidebar1">  
+            
             <a name="i" href="/SpringMVC/crearnota.htm?l=${libreta}&b=${nota.id}&correo=${mail}" rel="${nota.id}" >${nota.titulo}</a> 
-             </div>
-             <a href="nota.htm?l=${libreta}&b=${nota.id}"><img src="t.png" width="25" height="22" style="margin-left:40px"> </img></a><br />
-          
-          <div class="content">       
+         </div>
+        <a href="nota.htm?l=${libreta}&b=${nota.id}" onclick="return confirm('¿Está seguro de querer eliminar la nota de título: ${nota.titulo}?');">
+            <img src="t.png" width="25" height="22" title="Eliminar esta nota" style="margin-left:40px"> </img>
+        
+        </a><br />        
+        <div class="content">       
             ${nota.texto} 
         </div>  
         </br>
-            Fecha: ${nota.fecha} 
-          </br>
-          </br>
+            Fecha: ${nota.fecha}
             
-        </c:forEach>
+            
+<br></br>  
+<img src="separador.jpeg"   id="separador" style="background: #F2F2F2; display:block;" />
+<br></br>
+</c:forEach>
+</table>
+
+<%-- // load our paging tag, pass pagedListHolder and the link --%>
+<tg:paging pagedListHolder="${pagedListHolder}" pagedLink="${pagedLink}"/>
+
+
+
+
+
   
+
+  <br></br>
    <form id="regresar-libreta-form" action ="http://localhost:8080/SpringMVC/libreta.htm" method="post" >
         <input type="hidden" id="title-frm" value="${mail}" name="correo">
        <button type="submit"> Regresar </button>
@@ -190,14 +235,13 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
   <div class="sidebar2">     
       <!-- <h4>Backgrounds</h4> -->
     <input type="text" size="17" >
-    <img src="search.png" style="margin-right:5px"> <br><br><br> 
-    <a href="crearnota.htm?l=${libreta}&correo=${mail}"><img src="crearNota2.png" width="25" height="22"> </img></a>
+    <img src="search.png" title="Buscar" style="margin-right:5px"> <br><br><br> 
+    <a href="crearnota.htm?l=${libreta}&correo=${mail}"><img src="crearNota2.png" title="Crear una nueva nota" width="50" height=""> </img></a>
          
      <br><br><br><br><br><br><br><br><br><br>
     <!-- end .sidebar2 --></div>
     <!-- PIE DE PAGINA -->
   <div class="footer">
-      
     <p>Note Manager. Desarrollo de Software - UCAB. Desarrollado por Angel Alberici, Carlos Castillo y Legna Filloy</p>
     <!-- end .footer --></div>
   <!-- end .container --></div>

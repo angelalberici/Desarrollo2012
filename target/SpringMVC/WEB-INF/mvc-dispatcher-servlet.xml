@@ -15,8 +15,24 @@
         </property>
     </bean>
 
+
+ <bean id="multipartResolver"
+	class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> </bean>
+
+	<bean class="com.mkyong.common.controller.FileUploadController">
+		<property name="formView" value="FileUploadForm" />
+		<property name="successView" value="FileUploadSuccess" />
+ 
+	</bean>
+        
+        
+        <bean name="/upload.htm" 
+                   class="com.mkyong.common.controller.FileUploadController" />    
+        
+        
+
     <bean name="/lista.htm" 
-                   class="com.mkyong.common.controller.NotaListaController" />
+                   class="com.mkyong.common.controller.NotaController" />
                 
     <bean name="/libreta.htm" 
                       class="com.mkyong.common.controller.LibretaController" />

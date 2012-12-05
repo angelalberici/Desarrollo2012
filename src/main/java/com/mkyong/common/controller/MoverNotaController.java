@@ -7,6 +7,7 @@ package com.mkyong.common.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.DbCon;
+import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import servicio.LibretaManager;
@@ -23,7 +24,7 @@ public class MoverNotaController implements Controller {
             HttpServletResponse arg1) throws Exception {
   
 
-
+Logger logger = Logger.getLogger("com.DbCon");
         String correo = (String) request.getParameter("correo");
         Integer nota = Integer.parseInt(request.getParameter("b"));
         if (request.getParameter("l") != null) {

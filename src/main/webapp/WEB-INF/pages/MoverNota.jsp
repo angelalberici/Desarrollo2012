@@ -160,7 +160,7 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     <!-- end .sidebar1 --></div>
     <!-- COLUMNA DEL MEDIOOOOOOOOOOOOOOOOOOOOOOOOOOO -->
   <div class="content">
-    <h1>Libretas</h1>   
+    <h1>Seleccionar a qué libreta pertnecerá la nota</h1>   
          <c:forEach items="${LibretaList}" var="libreta">
              <div class="sidebar2">
              <a href="movernota.htm?b=${notaid}&l=${libreta.id}&correo=${mail}">${libreta.nombre} </a>
@@ -179,7 +179,7 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     <!a href="libreta.htm?code="><!img src="n.png" width="30" height="22"></a>
     <!img src="t.png" width="25" height="22"> 
     
- <a href="libreta.htm?correo=${mail}"><img src="libreta.png" width="25" height="22"> </a>   <br><br><br><br><br><br><br><br><br><br>
+ <a href="libreta.htm?correo=${mail}"><img src="libreta.png" width="25" height="22"> Regresar</a>   <br><br><br><br><br><br><br><br><br><br>
     <!-- end .sidebar2 --></div>
     <!-- PIE DE PAGINA -->
   <div class="footer">

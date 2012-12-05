@@ -2,6 +2,7 @@ package modelo;
 
 import java.security.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 public class Nota {
 	private Integer id;
@@ -9,6 +10,15 @@ public class Nota {
 	private String texto;
         private String fecha;
         private Integer libreta_id;
+        List <Tag> tags;
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
 
     public Integer getLibreta_id() {
         return libreta_id;

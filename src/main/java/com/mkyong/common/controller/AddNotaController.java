@@ -13,7 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import modelo.DbCon;
 import modelo.Nota;
 import modelo.Tag;
+import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -28,8 +30,9 @@ import org.springframework.web.servlet.mvc.Controller;
  * @author Angel Alberici
  */
 public class AddNotaController extends AbstractController {
+Logger logger = Logger.getLogger("com.AddNotaController");
 
-    @Override
+    @RequestMapping(method = RequestMethod.POST)
     protected ModelAndView handleRequestInternal(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Integer id = null;
@@ -52,6 +55,7 @@ public class AddNotaController extends AbstractController {
 
             modelAndView.addObject("nota", DbCon.getInstance().entregarNota(id));
 
+
         } else {
             modelAndView.addObject("nota", DbCon.getInstance().entregarNota(id));
 
@@ -65,14 +69,14 @@ public class AddNotaController extends AbstractController {
             }
             nota.setTitulo(request.getParameter("titulo"));
             nota.setTexto(request.getParameter("texto"));
-            System.out.println(request.getParameter("l") + "----------------------------");
             nota.setLibreta_id(Integer.parseInt(request.getParameter("l")));
             if (request.getParameter("tags") != null) {
                 tags = formatearTags(request.getParameter("tags"));
             }
+             logger.info("Lista de tags de la nota: "+tags);
             System.out.println("TAGS::::::::::::" + tags);
             DbCon.getInstance().crearNota(nota, tags, null);
-
+            
             //si ya cree la nota entonces me regreso a mi lista de notas 
             modelAndView = new ModelAndView("notaList");
             modelAndView.addObject("correo", request.getParameter("correo"));

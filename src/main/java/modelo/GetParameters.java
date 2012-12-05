@@ -56,6 +56,7 @@ public class GetParameters {
                             mail = mail+split2[1].charAt(i);
                          }
                   //System.out.println("el mail "+mail);
+                    Usuario.getInstance().setCorreo(mail);
                   return mail;
                // break;
                       }

@@ -6,6 +6,7 @@ package com.mkyong.common.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.LibretaDAOMySQL;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import servicio.LibretaManager;
@@ -34,7 +35,7 @@ public class LibretaController implements Controller {
         String correo = (String) request.getParameter("correo");
         String modificar = (String) request.getParameter("nombremodificado");
 
-        LibretaManager libretaManager = new LibretaManager();
+        LibretaDAOMySQL libretaManager = new LibretaDAOMySQL();
         libretaManager.cargarLibreta(correo); // cargar las libretas por medio de un correo
 
         if (opcion != null && id != null) {
