@@ -139,12 +139,12 @@ public class UploadGoogleDrive {
 
         try {
             File file = service2.files().insert(body, mediaContent).execute();
-            JOptionPane.showMessageDialog(null, "Archivo adjuntado correctamente");
+            //JOptionPane.showMessageDialog(null, "Archivo adjuntado correctamente");
             System.out.println("File ID: " + file.getId());
            
         } catch (IOException e) {
             e.printStackTrace();
-             JOptionPane.showMessageDialog(null, "No hay conexion");       ;
+            // JOptionPane.showMessageDialog(null, "No hay conexion");       ;
         }
 
     }

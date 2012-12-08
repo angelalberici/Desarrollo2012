@@ -334,7 +334,7 @@ public class NotaDAOMySQL implements NotaDAO {
     }    
 
     @Override
-    public List<Nota> entregarNotasBuscadas(Integer libretaid) {
+    public List<Nota> entregarNotasBusqueda(String palabra, String correo) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

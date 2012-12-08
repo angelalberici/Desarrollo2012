@@ -4,6 +4,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    
+    
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>
+<style type="text/css">
+* { font-family: Verdana; font-size: 96%; }
+
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+
+</style>
+  <script>
+  $(document).ready(function(){
+    $("#create-note-form").validate();
+  });
+  </script>
+    
+    
+    
+    
 <meta http-equiv="Content-Type" content="text/html; charset=ascii" />
 <title>Notas</title>
 <style type="text/css">
@@ -178,7 +197,9 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
       <label id="title-frm-label" for ="htte-frm">
         Título:  
       </label>
-      <input id="tittle-frm" name="titulo" type="text" VALUE="${nota.titulo}"/>
+      <input id="tittle-frm" name="titulo" type="text" VALUE="${nota.titulo}" class="required" minlength="1" />
+       
+
       <br></br>
       <input type="hidden" id="title-frm" value="${mail}" name="correo">
       <input type="hidden" id="title-frm" value="${libreta}" name="l"> 
@@ -187,8 +208,8 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
           <textarea name="texto" rows="10" cols="70">${nota.texto}</textarea><br></br>
           
           Tags: 
-      <input name="tags" rows="2" cols="70">
-<c:forEach items="${nota.tags}" var="tag">${tag.nombre},</c:forEach>
+      <input name="tags" rows="2" cols="70" value="<c:forEach items="${nota.tags}" var="tag">${tag.nombre},</c:forEach>">
+
 
        
       </input><br />
@@ -196,10 +217,9 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 
 
       <button title="Crear esta nota" type="submit"> <img src="crearNota2.png" ></button>
-      
     </fieldset>
 </form>
-<br></br>
+      <br></br>
  <a href="movernota.htm?correo=${mail}&b=${nota.id}">Mover a otra libreta</a><br />
  <br></br>
        

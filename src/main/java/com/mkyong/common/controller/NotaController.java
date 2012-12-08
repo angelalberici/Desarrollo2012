@@ -17,8 +17,7 @@ import org.springframework.beans.support.PagedListHolder;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
- // Import log4j classes.
-
+// Import log4j classes.
 
 /**
  * Se controla a la vista notaList, se reciben
@@ -26,7 +25,8 @@ import org.springframework.web.servlet.mvc.Controller;
  * @author Angel Alberici
  */
 public class NotaController implements Controller {
-Logger logger = Logger.getLogger("com.NotaController");
+
+    Logger logger = Logger.getLogger("com.NotaController");
     final int tamañoPagina = 5;
 
     public ModelAndView handleRequest(HttpServletRequest request,
@@ -38,7 +38,7 @@ Logger logger = Logger.getLogger("com.NotaController");
         if (request.getParameter("b") != null && request.getParameter("titulo") == null
                 && request.getParameter("texto") == null) {
             DbCon.getInstance().eliminarNota(Integer.parseInt(request.getParameter("b")));
-            logger.info("Nota: "+request.getParameter("b")+" fue eliminada");
+            logger.info("Nota: " + request.getParameter("b") + " fue eliminada");
         }
         Integer libreta = Integer.parseInt(request.getParameter("l"));
 
@@ -50,12 +50,12 @@ Logger logger = Logger.getLogger("com.NotaController");
             }
             nota.setTitulo(request.getParameter("titulo"));
             nota.setTexto(request.getParameter("texto"));
-            
+
             nota.setLibreta_id(Integer.parseInt(request.getParameter("l")));
             if (request.getParameter("tags") != null) {
                 tags = formatearTags(request.getParameter("tags"));
             }
-            logger.info("Tags:"+tags+",\n traidos de la nota: "+request.getParameter("b"));
+            logger.info("Tags:" + tags + ",\n traidos de la nota: " + request.getParameter("b"));
             DbCon.getInstance().crearNota(nota, tags, null);
         }
 
@@ -65,21 +65,18 @@ Logger logger = Logger.getLogger("com.NotaController");
         } else {
             pagina = 0;
         }
-        logger.info("Se esta accediendo a la página: "+pagina);
-
+        logger.info("Se esta accediendo a la página: " + pagina);
+        String correo = request.getParameter("correo");
+        String palabra = request.getParameter("palabra");
 
         ModelAndView modelAndView = new ModelAndView("notaList");
-        modelAndView.addObject("pagedListHolder", paginarResultados(pagina, libreta));
-//        modelAndView.addObject("notaList", DbCon.getInstance().entregarTodasLasNotas(libreta));
+        modelAndView.addObject("pagedListHolder", paginarResultados(pagina, libreta, palabra, correo));
         modelAndView.addObject("libreta", request.getParameter("l"));
         modelAndView.addObject("mail", request.getParameter("correo"));
-        modelAndView.addObject("url","?l="+libreta+"&correo="+request.getParameter("correo"));
-
+        modelAndView.addObject("url", "?l=" + libreta + "&correo=" + correo + "&palabra=" + palabra);
         return modelAndView;
 
     }
-
- 
 
     /**
      * Se le pasan, el numero de pagina y la libreta a la que pertenecen las
@@ -93,9 +90,14 @@ Logger logger = Logger.getLogger("com.NotaController");
      * tamañoPagina, segun la pagina seleccionada y segun la libreta en la que
      * se esta posicionado
      */
-    public PagedListHolder paginarResultados(int paginaNum, int libreta) {
+    public PagedListHolder paginarResultados(int paginaNum, int libreta, String palabra, String correo) {
         try {
-            PagedListHolder pagedListHolder = new PagedListHolder(DbCon.getInstance().entregarTodasLasNotas(libreta));
+            PagedListHolder pagedListHolder;
+            if (libreta != -1) {
+                pagedListHolder = new PagedListHolder(DbCon.getInstance().entregarTodasLasNotas(libreta));
+            } else {
+                pagedListHolder = new PagedListHolder(DbCon.getInstance().entregarNotasBusqueda(palabra, correo));
+            }
             pagedListHolder.setPageSize(tamañoPagina);
             pagedListHolder.setPage(paginaNum);
 
@@ -103,7 +105,7 @@ Logger logger = Logger.getLogger("com.NotaController");
         } catch (IOException ex) {
             logger.error("Error al intentar paginar paginarResultados.");
             ex.printStackTrace();
-        
+
         }
         return null;
     }
@@ -116,7 +118,7 @@ Logger logger = Logger.getLogger("com.NotaController");
      * @return lista de tags
      */
     public List<Tag> formatearTags(String tagsSinOrden) {
-        logger.info("Los tags que se van a tener la nota: "+ tagsSinOrden);
+        logger.info("Los tags que se van a tener la nota: " + tagsSinOrden);
         List<Tag> listaTag = new ArrayList<Tag>();
         int recorreLista = 0;
 
@@ -131,7 +133,7 @@ Logger logger = Logger.getLogger("com.NotaController");
 
             }
         } catch (Exception e) {
-            logger.error("Error al intentar formatear los tags: "+tagsSinOrden);
+            logger.error("Error al intentar formatear los tags: " + tagsSinOrden);
             Tag tag = new Tag();
             tag.setNombre(tagsSinOrden);
             listaTag.add(tag);

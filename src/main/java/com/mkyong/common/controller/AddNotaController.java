@@ -60,6 +60,8 @@ Logger logger = Logger.getLogger("com.AddNotaController");
             modelAndView.addObject("nota", DbCon.getInstance().entregarNota(id));
 
         }
+        modelAndView.addObject("mail",request.getParameter("correo"));
+        modelAndView.addObject("libreta",request.getParameter("l"));
 
         if (request.getParameter("titulo") != null && request.getParameter("texto") != null) {
             nota = new Nota();
@@ -74,7 +76,6 @@ Logger logger = Logger.getLogger("com.AddNotaController");
                 tags = formatearTags(request.getParameter("tags"));
             }
              logger.info("Lista de tags de la nota: "+tags);
-            System.out.println("TAGS::::::::::::" + tags);
             DbCon.getInstance().crearNota(nota, tags, null);
             
             //si ya cree la nota entonces me regreso a mi lista de notas 

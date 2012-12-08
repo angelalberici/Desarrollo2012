@@ -197,9 +197,9 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 
         <div class="sidebar1">  
             
-            <a name="i" href="/SpringMVC/crearnota.htm?l=${libreta}&b=${nota.id}&correo=${mail}" rel="${nota.id}" >${nota.titulo}</a> 
+            <a name="i" href="/SpringMVC/crearnota.htm?l=${nota.libreta_id}&b=${nota.id}&correo=${mail}" rel="${nota.id}" >${nota.titulo}</a> 
          </div>
-        <a href="nota.htm?l=${libreta}&b=${nota.id}" onclick="return confirm('¿Está seguro de querer eliminar la nota de título: ${nota.titulo}?');">
+        <a href="nota.htm?l=${nota.libreta_id}&b=${nota.id}" onclick="return confirm('¿Está seguro de querer eliminar la nota de título: ${nota.titulo}?');">
             <img src="t.png" width="25" height="22" title="Eliminar esta nota" style="margin-left:40px"> </img>
         
         </a><br />        
@@ -232,11 +232,18 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     </form>
     <!-- end .content --></div>
     <!-- COLUMNA DERECHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -->
-  <div class="sidebar2">     
+  <div class="sidebar2">  
+   <form id="realizar-busqueda-form" action ="http://localhost:8080/SpringMVC/nota.htm" method="post" >
+      <input type="text" size="17" name="palabra" value="${palabra}">
+      <input type="hidden" id="title-frm" value="${mail}" name="correo">
+      <input type="hidden" value="-1" name="l">
+      <img src="search.png" type="submit"title="Buscar" style="margin-right:5px"> <br><br><br> 
+   </form>  
+      
       <!-- <h4>Backgrounds</h4> -->
-    <input type="text" size="17" >
-    <img src="search.png" title="Buscar" style="margin-right:5px"> <br><br><br> 
-    <a href="crearnota.htm?l=${libreta}&correo=${mail}"><img src="crearNota2.png" title="Crear una nueva nota" width="50" height=""> </img></a>
+     <a href="crearnota.htm?l=${libreta}&correo=${mail}"><img src="crearNota2.png" title="Crear una nueva nota" width="50" height=""> </img></a>
+       
+    <!a href="crearnota.htm?l=${libreta}&correo=${mail}"><!img src="crearNota2.png" title="Crear una nueva nota" width="50" height=""> </img></a>
          
      <br><br><br><br><br><br><br><br><br><br>
     <!-- end .sidebar2 --></div>

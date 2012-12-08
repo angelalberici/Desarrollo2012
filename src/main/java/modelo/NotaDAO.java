@@ -86,5 +86,5 @@ public interface NotaDAO {
      *
      * @return Lista de notas actual de la BD
      */
-    List<Nota> entregarNotasBuscadas(Integer libretaid);
+   List<Nota> entregarNotasBusqueda(String palabra,String correo);
 }

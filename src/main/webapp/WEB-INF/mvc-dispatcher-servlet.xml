@@ -14,20 +14,9 @@
             <value>.jsp</value>
         </property>
     </bean>
-
-
- <bean id="multipartResolver"
-	class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> </bean>
-
-	<bean class="com.mkyong.common.controller.FileUploadController">
-		<property name="formView" value="FileUploadForm" />
-		<property name="successView" value="FileUploadSuccess" />
- 
-	</bean>
-        
-        
+              
         <bean name="/upload.htm" 
-                   class="com.mkyong.common.controller.FileUploadController" />    
+                   class="com.mkyong.common.controller.AddNotaController" />    
         
         
 

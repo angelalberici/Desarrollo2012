@@ -106,61 +106,46 @@ public class DbCon implements NotaDAO {
         }
 
     }
+   
     
-    
-  
-    /**
-     * Buscar la lista de todas las notas que coincidan con la busqueda en la BD y devolverla
-     *
-     * @return Lista de notas actual de la BD
-     */
     @Override
-    public List<Nota> entregarNotasBuscadas(Integer libretaid) {
+ public List<Nota> entregarNotasBusqueda(String palabra,String correo) {
 
-
-        String sql = "SELECT id,titulo,texto,fecha FROM NOTA where libreta_id=" + libretaid;
+        String sql = "SELECT x. * FROM "
+        + "((SELECT n.fecha, n.id, n.titulo, n.texto, n.libreta_id FROM nota n, libreta l, usuario u WHERE ((n.titulo LIKE '%"+palabra+"%' OR n.texto LIKE '%"+palabra+"%') AND l.usuario_id = '"+correo+"' AND n.libreta_id = l.id) ORDER BY fecha DESC) "
+        + "UNION "
+        + "(SELECT n.fecha, n.id, n.titulo, n.texto, n.libreta_id FROM nota n, adjunto a, libreta l, usuario u WHERE (a.nombre LIKE '%"+palabra+"%' AND n.id = a.nota_id AND l.usuario_id = '"+correo+"' AND n.libreta_id = l.id) ORDER BY n.fecha DESC) "
+        + "UNION "
+        + "(SELECT n.fecha, n.id, n.titulo, n.texto, n.libreta_id FROM tag t, nota n, nota_tag nt, libreta l, usuario u WHERE (t.nombre LIKE '%"+palabra+"%' AND n.id = nt.nota_id AND t.nombre = nt.tag_nombre AND l.usuario_id = '"+correo+"' AND n.libreta_id = l.id) ORDER BY n.fecha DESC))x "
+        + "ORDER BY x.fecha DESC";
 
         List<Nota> listaNota = new ArrayList<Nota>();
 
         List<Map> rows = jdbcTemplate.queryForList(sql);
         for (Map row : rows) {
             Nota nota = new Nota();
+            System.out.println("libreta_id "+row.get("libreta_id"));
             nota.setId((Integer) (row.get("id")));
             nota.setTitulo((String) row.get("titulo"));
+            nota.setLibreta_id((Integer)row.get("libreta_id"));
             if (nota.getTitulo().length() < 50) {
                 nota.setTitulo(nota.getTitulo().substring(0, nota.getTitulo().length()));
             } else {
-                nota.setTitulo(nota.getTitulo().substring(0, 50) + "...");
+                nota.setTitulo(nota.getTitulo().substring(0, 50)+"...");
             }
             nota.setTexto((String) row.get("texto"));
-            if (nota.getTexto().length() < 200) {
+             if (nota.getTexto().length() < 200) {
                 nota.setTexto(nota.getTexto().substring(0, nota.getTexto().length()));
             } else {
-                nota.setTexto(nota.getTexto().substring(0, 200) + "...");
-            }
-
+                nota.setTexto(nota.getTexto().substring(0, 200)+"...");
+            }           
+            
             nota.setFecha(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((Date) row.get("fecha")));
             listaNota.add(nota);
-//            try {
-//                List<Tag> tags = new ArrayList<Tag>();
-//                List<Map> rowTags = jdbcTemplate.queryForList("select tag_nombre from nota_tag where nota_id=" + nota.getId());
-//                if (!rowTags.isEmpty()) {
-//                    for (Map rowtag : rowTags) {
-//                        Tag tag = new Tag();
-//                        tag.setNombre((String) rowtag.get("tag_nombre"));
-//                        tags.add(tag);
-//
-//                    }
-//                }
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
         }
-        logger.info("Se entregaron correctmanete las notas de la libreta: " + libretaid);
         return listaNota;
     }
+
 
     /**
      * Buscar la lista de todas las notas en la BD y devolverla
@@ -180,6 +165,7 @@ public class DbCon implements NotaDAO {
             Nota nota = new Nota();
             nota.setId((Integer) (row.get("id")));
             nota.setTitulo((String) row.get("titulo"));
+            nota.setLibreta_id(libretaid);
             if (nota.getTitulo().length() < 50) {
                 nota.setTitulo(nota.getTitulo().substring(0, nota.getTitulo().length()));
             } else {

@@ -175,10 +175,14 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     <!-- COLUMNA DERECHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -->
   <div class="sidebar2">
     <!-- <h4>Backgrounds</h4> -->
-     <input type="text" size="17" >
-    <img src="search.png" style="margin-right:5px"> <br><br><br>
     <!a href="libreta.htm?code="><!img src="n.png" width="30" height="22"></a>
     <!img src="t.png" width="25" height="22"> 
+   <form id="realizar-busqueda-form" action ="http://localhost:8080/SpringMVC/nota.htm" method="post" >
+      <input type="text" size="17" name="palabra" value="${palabra}">
+    <input type="hidden" id="title-frm" value="${mail}" name="correo">
+    <input type="hidden" value="-1" name="l">
+    <img src="search.png" type="submit"title="Buscar" style="margin-right:5px"> <br><br><br> 
+   </form> 
     <a href="libreta.htm?opcion=3&correo=${mail}"><img src="libreta.png" width="25" height="22"> </a>
     <br><br><br><br><br><br><br><br><br><br>
     <!-- end .sidebar2 --></div>
