@@ -11,6 +11,15 @@ public class Nota {
         private String fecha;
         private Integer libreta_id;
         List <Tag> tags;
+        List <Adjunto> adjuntos;
+
+    public List<Adjunto> getAdjuntos() {
+        return adjuntos;
+    }
+
+    public void setAdjuntos(List<Adjunto> adjuntos) {
+        this.adjuntos = adjuntos;
+    }
 
     public List<Tag> getTags() {
         return tags;

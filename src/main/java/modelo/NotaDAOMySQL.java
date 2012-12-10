@@ -338,5 +338,10 @@ public class NotaDAOMySQL implements NotaDAO {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public int borrarAdjunto(String adjuntoID) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 
 }

@@ -69,6 +69,7 @@ public class DbCon implements NotaDAO {
 
         try {
             List<Tag> tags = new ArrayList<Tag>();
+            List<Adjunto> adjuntos = new ArrayList<Adjunto>();
             String sql = "SELECT id,titulo,texto,fecha FROM NOTA where id=" + id;
             Nota notab;
             List<Map> rows = jdbcTemplate.queryForList(sql);
@@ -93,7 +94,17 @@ public class DbCon implements NotaDAO {
             }
             nota.setTags(tags);
 
+            sql = "select id,nombre from adjunto where nota_id=" + id;
+            rows = jdbcTemplate.queryForList(sql);
+            for (Map row : rows) {
+                Adjunto adjunto = new Adjunto();
+                adjunto.setId((String) (row.get("id")));
+                adjunto.setNombre((String) (row.get("nombre")));
+                adjunto.setNota_id(id + "");
+                adjuntos.add(adjunto);
 
+            }
+            nota.setAdjuntos(adjuntos);
 
             logger.info("Se entregó correctamente la nota: " + nota.getId() + ", fecha: " + nota.getFecha() + ", título: " + nota.getTitulo());
             return nota;
@@ -101,51 +112,53 @@ public class DbCon implements NotaDAO {
         } catch (Exception e) {
 //No existe la nota
             logger.error("La nota: " + id + " no existe");
-            e.printStackTrace();
             return null;
         }
 
     }
-   
-    
+
+    /**
+     * 
+     * @param palabra, representa la palabra que coloca en el buscador
+     * @param correo el correo del usuario
+     * @return 
+     */
     @Override
- public List<Nota> entregarNotasBusqueda(String palabra,String correo) {
+    public List<Nota> entregarNotasBusqueda(String palabra, String correo) {
 
         String sql = "SELECT x. * FROM "
-        + "((SELECT n.fecha, n.id, n.titulo, n.texto, n.libreta_id FROM nota n, libreta l, usuario u WHERE ((n.titulo LIKE '%"+palabra+"%' OR n.texto LIKE '%"+palabra+"%') AND l.usuario_id = '"+correo+"' AND n.libreta_id = l.id) ORDER BY fecha DESC) "
-        + "UNION "
-        + "(SELECT n.fecha, n.id, n.titulo, n.texto, n.libreta_id FROM nota n, adjunto a, libreta l, usuario u WHERE (a.nombre LIKE '%"+palabra+"%' AND n.id = a.nota_id AND l.usuario_id = '"+correo+"' AND n.libreta_id = l.id) ORDER BY n.fecha DESC) "
-        + "UNION "
-        + "(SELECT n.fecha, n.id, n.titulo, n.texto, n.libreta_id FROM tag t, nota n, nota_tag nt, libreta l, usuario u WHERE (t.nombre LIKE '%"+palabra+"%' AND n.id = nt.nota_id AND t.nombre = nt.tag_nombre AND l.usuario_id = '"+correo+"' AND n.libreta_id = l.id) ORDER BY n.fecha DESC))x "
-        + "ORDER BY x.fecha DESC";
+                + "((SELECT n.fecha, n.id, n.titulo, n.texto, n.libreta_id FROM nota n, libreta l, usuario u WHERE ((n.titulo LIKE '%" + palabra + "%' OR n.texto LIKE '%" + palabra + "%') AND l.usuario_id = '" + correo + "' AND n.libreta_id = l.id) ORDER BY fecha DESC) "
+                + "UNION "
+                + "(SELECT n.fecha, n.id, n.titulo, n.texto, n.libreta_id FROM nota n, adjunto a, libreta l, usuario u WHERE (a.nombre LIKE '%" + palabra + "%' AND n.id = a.nota_id AND l.usuario_id = '" + correo + "' AND n.libreta_id = l.id) ORDER BY n.fecha DESC) "
+                + "UNION "
+                + "(SELECT n.fecha, n.id, n.titulo, n.texto, n.libreta_id FROM tag t, nota n, nota_tag nt, libreta l, usuario u WHERE (t.nombre LIKE '%" + palabra + "%' AND n.id = nt.nota_id AND t.nombre = nt.tag_nombre AND l.usuario_id = '" + correo + "' AND n.libreta_id = l.id) ORDER BY n.fecha DESC))x "
+                + "ORDER BY x.fecha DESC";
 
         List<Nota> listaNota = new ArrayList<Nota>();
 
         List<Map> rows = jdbcTemplate.queryForList(sql);
         for (Map row : rows) {
             Nota nota = new Nota();
-            System.out.println("libreta_id "+row.get("libreta_id"));
             nota.setId((Integer) (row.get("id")));
             nota.setTitulo((String) row.get("titulo"));
-            nota.setLibreta_id((Integer)row.get("libreta_id"));
+            nota.setLibreta_id((Integer) row.get("libreta_id"));
             if (nota.getTitulo().length() < 50) {
                 nota.setTitulo(nota.getTitulo().substring(0, nota.getTitulo().length()));
             } else {
-                nota.setTitulo(nota.getTitulo().substring(0, 50)+"...");
+                nota.setTitulo(nota.getTitulo().substring(0, 50) + "...");
             }
             nota.setTexto((String) row.get("texto"));
-             if (nota.getTexto().length() < 200) {
+            if (nota.getTexto().length() < 200) {
                 nota.setTexto(nota.getTexto().substring(0, nota.getTexto().length()));
             } else {
-                nota.setTexto(nota.getTexto().substring(0, 200)+"...");
-            }           
-            
+                nota.setTexto(nota.getTexto().substring(0, 200) + "...");
+            }
+
             nota.setFecha(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((Date) row.get("fecha")));
             listaNota.add(nota);
         }
         return listaNota;
     }
-
 
     /**
      * Buscar la lista de todas las notas en la BD y devolverla
@@ -180,21 +193,6 @@ public class DbCon implements NotaDAO {
 
             nota.setFecha(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((Date) row.get("fecha")));
             listaNota.add(nota);
-//            try {
-//                List<Tag> tags = new ArrayList<Tag>();
-//                List<Map> rowTags = jdbcTemplate.queryForList("select tag_nombre from nota_tag where nota_id=" + nota.getId());
-//                if (!rowTags.isEmpty()) {
-//                    for (Map rowtag : rowTags) {
-//                        Tag tag = new Tag();
-//                        tag.setNombre((String) rowtag.get("tag_nombre"));
-//                        tags.add(tag);
-//
-//                    }
-//                }
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
 
         }
         logger.info("Se entregaron correctmanete las notas de la libreta: " + libretaid);
@@ -353,21 +351,12 @@ public class DbCon implements NotaDAO {
     @Override
     public int modificarAdjuntosDeNota(Integer notaid, List<Adjunto> adjuntos) {
         if (adjuntos != null) {
-            if (notaid != null) {
-                jdbcTemplate.update("delete from adjunto where nota_id=" + notaid);
-            } else {
-                jdbcTemplate.update("delete from adjunto where nota_id=(SELECT max( id ) FROM nota)");
-            }
             for (Adjunto adjunto : adjuntos) {
-
-
                 if (notaid != null) {
-                    jdbcTemplate.update("insert into adjunto(id,nombre,nota_id) values ('" + adjunto.getId() + "','" + adjunto.getNombre() + "'," + notaid + ")");
+                    jdbcTemplate.update("insert into adjunto(id,nombre,nota_id) values ('" + adjunto.getId() + "','" + adjunto.getNombre() + "'," + adjunto.getNota_id() + ")");
                 } else {
-                    jdbcTemplate.update("insert into adjunto(id,nombre,nota_id) values ('" + adjunto.getId() + "','" + adjunto.getNombre() + "',(SELECT max( id ) FROM nota) )");
+                    jdbcTemplate.update("insert into adjunto(id,nombre,nota_id) values ('" + adjunto.getId() + "','" + adjunto.getNombre() + "',(SELECT ma(angry) id ) FROM nota) )");
                 }
-
-
             }
             actualizarFecha(notaid);
             logger.info("Se modificaron los adjuntos de la nota de id: " + notaid);
@@ -375,6 +364,24 @@ public class DbCon implements NotaDAO {
         }
         logger.info("Error al intentar modificar los adjuntos de la nota de id: " + notaid);
         return 0;
+    }
+
+    /**
+     * Borrar un adjunto, se necesita su ID
+     *
+     * @param adjuntoID
+     * @return
+     */
+    @Override
+    public int borrarAdjunto(String adjuntoID) {
+        try {
+            return jdbcTemplate.update("delete from adjunto where id='" + adjuntoID + "'");
+        } catch (Exception e) {
+            logger.info("Error al intentar borrar el adjunto con ID "+adjuntoID);
+            return 0;
+
+        }
+
     }
 
     /**

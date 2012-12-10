@@ -16,10 +16,9 @@
     </bean>
               
         <bean name="/upload.htm" 
-                   class="com.mkyong.common.controller.AddNotaController" />    
+                   class="com.mkyong.common.controller.FileUploadController"/>    
+                   
         
-        
-
     <bean name="/lista.htm" 
                    class="com.mkyong.common.controller.NotaController" />
                 

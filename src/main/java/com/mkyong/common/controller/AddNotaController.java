@@ -5,6 +5,7 @@ package com.mkyong.common.controller;
  * the editor.
  */
 import com.mkyong.common.controller.*;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import modelo.DbCon;
 import modelo.Nota;
 import modelo.Tag;
+import modelo.Usuario;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,24 +32,34 @@ import org.springframework.web.servlet.mvc.Controller;
  * @author Angel Alberici
  */
 public class AddNotaController extends AbstractController {
-Logger logger = Logger.getLogger("com.AddNotaController");
+
+    Logger logger = Logger.getLogger("com.AddNotaController");
 
     @RequestMapping(method = RequestMethod.POST)
     protected ModelAndView handleRequestInternal(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Integer id = null;
+        String ruta = "C:\\Users\\Angel Alberici\\Downloads\\";
+
+        //descargar archivos
+        if (request.getParameter("d") != null) {
+            UploadGoogleDrive.descargarArchivoDrive(ruta,request.getParameter("d"));
+        }
+
+        //ver si se borro archivos adjuntos
+        if (request.getParameter("adjunto") != null) {
+            DbCon.getInstance().borrarAdjunto(request.getParameter("adjunto"));
+        }
 
         if (request.getParameter("b") != null) {
             id = Integer.parseInt(request.getParameter("b"));
         }
 
-
-
         ModelAndView modelAndView = new ModelAndView("AddNota");
         Nota nota;
-        modelAndView.addObject("mail", request.getParameter("correo"));
+        modelAndView.addObject("mail", Usuario.getInstance().getCorreo());
         modelAndView.addObject("libreta", request.getParameter("l"));
-        
+
         if (request.getParameter("b") != null) {
             modelAndView.addObject("idNota", request.getParameter("b"));
         }
@@ -60,8 +72,8 @@ Logger logger = Logger.getLogger("com.AddNotaController");
             modelAndView.addObject("nota", DbCon.getInstance().entregarNota(id));
 
         }
-        modelAndView.addObject("mail",request.getParameter("correo"));
-        modelAndView.addObject("libreta",request.getParameter("l"));
+         modelAndView.addObject("mail", Usuario.getInstance().getCorreo());
+        modelAndView.addObject("libreta", request.getParameter("l"));
 
         if (request.getParameter("titulo") != null && request.getParameter("texto") != null) {
             nota = new Nota();
@@ -75,12 +87,12 @@ Logger logger = Logger.getLogger("com.AddNotaController");
             if (request.getParameter("tags") != null) {
                 tags = formatearTags(request.getParameter("tags"));
             }
-             logger.info("Lista de tags de la nota: "+tags);
+            logger.info("Lista de tags de la nota: " + tags);
             DbCon.getInstance().crearNota(nota, tags, null);
-            
+
             //si ya cree la nota entonces me regreso a mi lista de notas 
             modelAndView = new ModelAndView("notaList");
-            modelAndView.addObject("correo", request.getParameter("correo"));
+            modelAndView.addObject("correo", Usuario.getInstance().getCorreo());
             modelAndView.addObject("l", request.getParameter("l"));
 
         }
@@ -95,7 +107,6 @@ Logger logger = Logger.getLogger("com.AddNotaController");
      * @return lista de tags
      */
     public List<Tag> formatearTags(String tagsSinOrden) {
-        System.out.println("-----------------------------" + tagsSinOrden);
         List<Tag> listaTag = new ArrayList<Tag>();
         int recorreLista = 0;
 

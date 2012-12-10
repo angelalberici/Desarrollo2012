@@ -7,6 +7,7 @@ package com.mkyong.common.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.LibretaDAOMySQL;
+import modelo.Usuario;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import servicio.LibretaManager;
@@ -32,7 +33,7 @@ public class LibretaController implements Controller {
         String opcion = (String) request.getParameter("opcion");
         String id = (String) request.getParameter("id");
         String nombre = (String) request.getParameter("nombrelibreta");
-        String correo = (String) request.getParameter("correo");
+        String correo = Usuario.getInstance().getCorreo();
         String modificar = (String) request.getParameter("nombremodificado");
 
         LibretaDAOMySQL libretaManager = new LibretaDAOMySQL();
@@ -61,7 +62,7 @@ public class LibretaController implements Controller {
         //para acceder al jsp que permite agregar una libreta
         if (opcion != null && opcion.equals("3")) {
             modelAndView = new ModelAndView("AgregarLibreta");
-            modelAndView.addObject("mail", correo);
+            modelAndView.addObject("mail", correo);            
          //para acceder al jsp que permite modificar una libreta
         } else if (opcion != null && opcion.equals("1")) {
             modelAndView = new ModelAndView("ModificarLibreta");

@@ -197,7 +197,7 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 
         <div class="sidebar1">  
             
-            <a name="i" href="/SpringMVC/crearnota.htm?l=${nota.libreta_id}&b=${nota.id}&correo=${mail}" rel="${nota.id}" >${nota.titulo}</a> 
+            <a name="i" href="/SpringMVC/crearnota.htm?l=${nota.libreta_id}&b=${nota.id}" rel="${nota.id}" >${nota.titulo}</a> 
          </div>
         <a href="nota.htm?l=${nota.libreta_id}&b=${nota.id}" onclick="return confirm('¿Está seguro de querer eliminar la nota de título: ${nota.titulo}?');">
             <img src="t.png" width="25" height="22" title="Eliminar esta nota" style="margin-left:40px"> </img>
@@ -241,7 +241,7 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
    </form>  
       
       <!-- <h4>Backgrounds</h4> -->
-     <a href="crearnota.htm?l=${libreta}&correo=${mail}"><img src="crearNota2.png" title="Crear una nueva nota" width="50" height=""> </img></a>
+     <a href="crearnota.htm?l=${libreta}"><img src="crearNota2.png" title="Crear una nueva nota" width="50" height=""> </img></a>
        
     <!a href="crearnota.htm?l=${libreta}&correo=${mail}"><!img src="crearNota2.png" title="Crear una nueva nota" width="50" height=""> </img></a>
          

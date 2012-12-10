@@ -1,8 +1,30 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Libretas</title>
+    
+    
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script type="text/javascript" src="http://jzaefferer.github.com/jquery-validation/jquery.validate.js"></script>
+<style type="text/css">
+* { font-family: Verdana; font-size: 96%; }
+
+label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
+
+</style>
+  <script>
+  $(document).ready(function(){
+    $("#create-note-form").validate();
+  });
+  </script>
+    
+    
+    
+    
+<meta http-equiv="Content-Type" content="text/html; charset=ascii" />
+<title>Notas</title>
 <style type="text/css">
 <!--
 body {
@@ -80,11 +102,11 @@ a:hover, a:active, a:focus { /* this group of selectors will give a keyboard nav
 	float: left;
 }
 .sidebar2 {
-	float: left;
-	width: 180px;
+	float: right;
+	width: 120px;
 	background: #FFF;
 	padding: 10px 0;
-	margin:auto
+	margin:right;
 	
 }
 
@@ -147,20 +169,16 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 </style></head>
 
 <body>
-    <TABLE BORDER="0" cellpadding="0" CELLSPACING="0">
-<TR>
-<TD WIDTH="1300" HEIGHT="25" BACKGROUND="barrabanner.png"  align="right" >
-    <FONT SIZE="3" COLOR="white" >${mail}</FONT>
-    <img src="avatar.png"  width="30" height="30" id="avatar" style="background: #F2F2F2; display:block;" align="right"/>    
-    <a href=" https://www.google.com/accounts/Logout?service=wise&continue=https://drive.google.com/"> 
-        <FONT SIZE="3" COLOR="white" > (Sign out) </FONT>
-</a>
-</TD>
-</TR>
-</TABLE>
+<script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
+<script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
+<div id="sample">
+<script type="text/javascript" src="../nicEdit.js"></script>
+<script type="text/javascript">
+	bkLib.onDomLoaded(function() { nicEditors.allTextAreas() });
+</script>
 
 <div class="container">
-  <div class="header"><a href="#"><img src="libretaBanner.png" alt="Insert Logo Here" name="Insert_logo" width="700" height="192" id="Insert_logo" style="background: #FFF; display:block;" /></a>
+  <div class="header"><a href="#"><img src="banner2.png" alt="Insert Logo Here" name="Insert_logo" width="737" height="192" id="Insert_logo" style="background: #FFF; display:block;" /></a>
   <hr color="#300" size="5">
    
   
@@ -171,28 +189,24 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     <!-- end .sidebar1 --></div>
     <!-- COLUMNA DEL MEDIOOOOOOOOOOOOOOOOOOOOOOOOOOO -->
   <div class="content">
-    <h1>Seleccionar a qué libreta pertnecerá la nota</h1>   
-         <c:forEach items="${LibretaList}" var="libreta">
-             <div class="sidebar2">
-             <a href="movernota.htm?b=${notaid}&l=${libreta.id}">${libreta.nombre} </a>
-             </div>
-            
-            
-             <br><br/> 
-        </c:forEach>  
+      <br />
+      <br />
+      <title>Notas</title>
+      <h1>Se adjuntaron un total de: ${cantidad} archivo(s)</h1>
+      <!la linea de abajo fue modifica antes el action tenia # action="#"-->
+       
+    <form id="regresar-libreta-form" action ="http://localhost:8080/SpringMVC/libreta.htm" method="post" >
+        <br /><br />
+        <button type="submit"> Regresar </button>
+    </form>
+
 
     <!-- end .content --></div>
     <!-- COLUMNA DERECHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA -->
   <div class="sidebar2">
     <!-- <h4>Backgrounds</h4> -->
-  <form id="realizar-busqueda-form" action ="http://localhost:8080/SpringMVC/nota.htm" method="post" >
-      <input type="text" size="17" name="palabra" value="${palabra}">
-      <input type="hidden" id="title-frm" value="${mail}" name="correo">
-      <input type="hidden" value="-1" name="l">
-      <img src="search.png" type="submit"title="Buscar" style="margin-right:5px"> <br><br><br> 
-   </form>  
-    
- <a href="libreta.htm"><img src="libreta.png" width="25" height="22"> Regresar</a>   <br><br><br><br><br><br><br><br><br><br>
+
+    <br><br><br><br><br><br><br><br><br><br>
     <!-- end .sidebar2 --></div>
     <!-- PIE DE PAGINA -->
   <div class="footer">
@@ -201,3 +215,6 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
   <!-- end .container --></div>
 </body>
 </html>
+
+
+    </center>

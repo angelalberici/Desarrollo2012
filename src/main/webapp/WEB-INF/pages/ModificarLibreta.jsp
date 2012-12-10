@@ -147,6 +147,17 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 </style></head>
 
 <body>
+    <TABLE BORDER="0" cellpadding="0" CELLSPACING="0">
+<TR>
+<TD WIDTH="1300" HEIGHT="25" BACKGROUND="barrabanner.png"  align="right" >
+    <FONT SIZE="3" COLOR="white" >${mail}</FONT>
+    <img src="avatar.png"  width="30" height="30" id="avatar" style="background: #F2F2F2; display:block;" align="right"/>    
+    <a href=" https://www.google.com/accounts/Logout?service=wise&continue=https://drive.google.com/"> 
+        <FONT SIZE="3" COLOR="white" > (Sign out) </FONT>
+</a>
+</TD>
+</TR>
+</TABLE>
 
 <div class="container">
   <div class="header"><a href="#"><img src="libretaBanner.png" alt="Insert Logo Here" name="Insert_logo" width="700" height="192" id="Insert_logo" style="background: #FFF; display:block;" /></a>

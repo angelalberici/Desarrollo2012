@@ -181,7 +181,7 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 <tr>
 <td>
     <form id="send-email-from" action="http://localhost:8080/SpringMVC/libreta.htm" method="post">
-        <input type="hidden" value="${correo}" name="correo"></input>
+        <!input type="hidden" value="${correo}" name="correo"></input>
       <button type="submit"> Entrar </button>
    
   </form>

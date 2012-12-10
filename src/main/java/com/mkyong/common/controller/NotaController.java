@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import modelo.DbCon;
 import modelo.Nota;
 import modelo.Tag;
+import modelo.Usuario;
 import org.springframework.beans.support.PagedListHolder;
 import org.apache.log4j.Logger;
 import org.springframework.web.servlet.ModelAndView;
@@ -66,14 +67,14 @@ public class NotaController implements Controller {
             pagina = 0;
         }
         logger.info("Se esta accediendo a la página: " + pagina);
-        String correo = request.getParameter("correo");
+        String correo = Usuario.getInstance().getCorreo();
         String palabra = request.getParameter("palabra");
 
         ModelAndView modelAndView = new ModelAndView("notaList");
         modelAndView.addObject("pagedListHolder", paginarResultados(pagina, libreta, palabra, correo));
         modelAndView.addObject("libreta", request.getParameter("l"));
-        modelAndView.addObject("mail", request.getParameter("correo"));
-        modelAndView.addObject("url", "?l=" + libreta + "&correo=" + correo + "&palabra=" + palabra);
+        modelAndView.addObject("mail", Usuario.getInstance().getCorreo());
+        modelAndView.addObject("url", "?l=" + libreta + "&palabra=" + palabra);
         return modelAndView;
 
     }
@@ -104,8 +105,6 @@ public class NotaController implements Controller {
             return pagedListHolder;
         } catch (IOException ex) {
             logger.error("Error al intentar paginar paginarResultados.");
-            ex.printStackTrace();
-
         }
         return null;
     }

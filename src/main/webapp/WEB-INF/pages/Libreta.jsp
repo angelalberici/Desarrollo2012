@@ -146,7 +146,17 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 -->
 </style></head>
 
-<body>
+<body><TABLE BORDER="0" cellpadding="0" CELLSPACING="0">
+<TR>
+<TD WIDTH="1300" HEIGHT="25" BACKGROUND="barrabanner.png"  align="right" >
+    <FONT SIZE="3" COLOR="white" >${mail}</FONT>
+    <img src="avatar.png"  width="30" height="30" id="avatar" style="background: #F2F2F2; display:block;" align="right"/>    
+    <a href=" https://www.google.com/accounts/Logout?service=wise&continue=https://drive.google.com/"> 
+        <FONT SIZE="3" COLOR="white" > (Sign out) </FONT>
+</a>
+</TD>
+</TR>
+</TABLE>
 
 <div class="container">
   <div class="header"><a href="#"><img src="libretaBanner.png" alt="Insert Logo Here" name="Insert_logo" width="700" height="192" id="Insert_logo" style="background: #FFF; display:block;" /></a>
@@ -163,10 +173,10 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     <h1>Libretas</h1>   
          <c:forEach items="${LibretaList}" var="libreta">
              <div class="sidebar2">
-             <a href="nota.htm?l=${libreta.id}&correo=${mail}">${libreta.nombre} 
+             <a href="nota.htm?l=${libreta.id}">${libreta.nombre} 
              </div>
-            <a href="libreta.htm?id=${libreta.id}&opcion=1&correo=${mail}"><img src="n.png" width="30" height="22" style="margin-right:5px"></a>
-            <a href="libreta.htm?id=${libreta.id}&opcion=2&correo=${mail}"><img src="t.png" width="25" height="22"></a>
+            <a href="libreta.htm?id=${libreta.id}&opcion=1"><img src="n.png" width="30" height="22" title ="Modificar la libreta"style="margin-right:5px"></a>
+            <a href="libreta.htm?id=${libreta.id}&opcion=2"><img src="t.png" width="25" height="22" title="Eliminar la libreta" onclick="return confirm('¿Está seguro de querer eliminar la libreta de título: ${libreta.nombre}?');"></a>
              <img src="separador.jpeg"   id="separador" style="background: #FFF; display:block;" />
              <br><br/> 
         </c:forEach>  
@@ -183,7 +193,7 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
     <input type="hidden" value="-1" name="l">
     <img src="search.png" type="submit"title="Buscar" style="margin-right:5px"> <br><br><br> 
    </form> 
-    <a href="libreta.htm?opcion=3&correo=${mail}"><img src="libreta.png" width="25" height="22"> </a>
+    <a href="libreta.htm?opcion=3"><img src="libreta.png" width="25" height="22" title="Agregar libreta"> </a>
     <br><br><br><br><br><br><br><br><br><br>
     <!-- end .sidebar2 --></div>
     <!-- PIE DE PAGINA -->

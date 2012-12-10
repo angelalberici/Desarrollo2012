@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.GetParameters;
 import modelo.PostParameters;
+import modelo.Usuario;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 import servicio.AutenticacionManager;
@@ -50,12 +51,12 @@ public class AutenticacionController implements Controller {
             AutenticacionManager insertar = new AutenticacionManager();
             token = post.sendPostRequest(code); 
             mail = get.sendGetRequest(token);
+            Usuario.getInstance().setToken(token);
+            Usuario.getInstance().setCorreo(mail);
             insertar.insertarUsuario(mail);
             
             modelAndView = new ModelAndView("Autenticacion");
-            modelAndView.addObject("autenticacion",code); 
-            modelAndView.addObject("correo",mail); 
-                         
+            modelAndView.addObject("autenticacion",code);                          
           }
        
     return  modelAndView;

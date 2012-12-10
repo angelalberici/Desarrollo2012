@@ -169,6 +169,17 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
 </style></head>
 
 <body>
+    <TABLE BORDER="0" cellpadding="0" CELLSPACING="0">
+<TR>
+<TD WIDTH="1300" HEIGHT="25" BACKGROUND="barrabanner.png"  align="right" >
+    <FONT SIZE="3" COLOR="white" >${mail}</FONT>
+    <img src="avatar.png"  width="30" height="30" id="avatar" style="background: #F2F2F2; display:block;" align="right"/>    
+    <a href=" https://www.google.com/accounts/Logout?service=wise&continue=https://drive.google.com/"> 
+        <FONT SIZE="3" COLOR="white" > (Sign out) </FONT>
+</a>
+</TD>
+</TR>
+</TABLE>
 <script src="http://js.nicedit.com/nicEdit-latest.js" type="text/javascript"></script>
 <script type="text/javascript">bkLib.onDomLoaded(nicEditors.allTextAreas);</script>
 <div id="sample">
@@ -201,7 +212,7 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
        
 
       <br></br>
-      <input type="hidden" id="title-frm" value="${mail}" name="correo">
+      <!input type="hidden" id="title-frm" value="${mail}" name="correo">
       <input type="hidden" id="title-frm" value="${libreta}" name="l"> 
       <input type="hidden" id="title-frm" value="${idNota}" name="b">  
       
@@ -209,21 +220,33 @@ ul.nav a:hover, ul.nav a:active, ul.nav a:focus { /* this changes the background
           
           Tags: 
       <input name="tags" rows="2" cols="70" value="<c:forEach items="${nota.tags}" var="tag">${tag.nombre},</c:forEach>">
+        </input><br />
+        
+        <br /><br />Adjuntos: 
 
-
-       
-      </input><br />
-      
-
-
+        <c:forEach items="${nota.adjuntos}" var="adjunto">
+           <p><a name="i" href="http://localhost:8080/SpringMVC/crearnota.htm?l=${libreta}&b=${nota.id}&correo=${mail}&d=${adjunto.id}"
+              rel="${adjunto.id}">${adjunto.nombre}</a> 
+            <a href="http://localhost:8080/SpringMVC/crearnota.htm?l=${libreta}&b=${nota.id}&adjunto=${adjunto.id}" onclick="return confirm('¿Está seguro de querer eliminar el adjunto de título: ${adjunto.nombre}?');" ><img src="borrar.png" width="20" height="20"></img></a></p>
+    
+        </c:forEach>
+        <br />
       <button title="Crear esta nota" type="submit"> <img src="crearNota2.png" ></button>
     </fieldset>
 </form>
+      
+      <form id="subir-adjunto-form" action="http://localhost:8080/SpringMVC/upload.htm" method="POST" enctype="multipart/form-data">
+          <input type="hidden" id="title-frm" value="${idNota}" name="b">  
+          <input type="hidden" name="correo" value="${mail}"/>
+          <input type="file" name="file" multiple/> 
+        <input type="submit" value="upload"/>
+      </form>
+      
       <br></br>
- <a href="movernota.htm?correo=${mail}&b=${nota.id}">Mover a otra libreta</a><br />
+ <a href="movernota.htm?b=${nota.id}">Mover a otra libreta</a><br />
  <br></br>
        
-    <form id="regresar-libreta-form" action ="http://localhost:8080/SpringMVC/nota.htm?l=${libreta}&correo=${mail}" method="post" >
+    <form id="regresar-libreta-form" action ="http://localhost:8080/SpringMVC/nota.htm?l=${libreta}" method="post" >
        <button type="submit"> Regresar </button>
     </form>
 

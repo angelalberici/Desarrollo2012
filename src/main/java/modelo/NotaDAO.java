@@ -87,4 +87,11 @@ public interface NotaDAO {
      * @return Lista de notas actual de la BD
      */
    List<Nota> entregarNotasBusqueda(String palabra,String correo);
+   
+   /**
+ * Borrar un adjunto, se necesita su ID
+ * @param adjuntoID
+ * @return 
+ */
+    int borrarAdjunto(String adjuntoID);
 }
