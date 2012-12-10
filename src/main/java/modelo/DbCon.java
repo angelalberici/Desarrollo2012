@@ -27,7 +27,6 @@ public class DbCon implements NotaDAO {
     Logger logger = Logger.getLogger("com.DbCon");
     DriverManagerDataSource dataSource;
     JdbcTemplate jdbcTemplate;
-    GoogleDrive goodledrive;
     private static DbCon dbConInstance;
 
     private DbCon() throws IOException {
@@ -37,7 +36,6 @@ public class DbCon implements NotaDAO {
         dataSource.setUsername("root");
         dataSource.setPassword("root");
         jdbcTemplate = new JdbcTemplate(dataSource);
-        goodledrive = new GoogleDrive();
     }
 
     public static DbCon getInstance() throws IOException {
