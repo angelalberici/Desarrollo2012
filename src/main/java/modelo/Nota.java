@@ -1,8 +1,7 @@
 package modelo;
 
-import java.security.Timestamp;
-import java.util.Date;
 import java.util.List;
+import modelo.Adjunto;
 
 public class Nota {
 	private Integer id;
@@ -12,6 +11,9 @@ public class Nota {
         private Integer libreta_id;
         List <Tag> tags;
         List <Adjunto> adjuntos;
+
+    public Nota() {
+    }
 
     public List<Adjunto> getAdjuntos() {
         return adjuntos;
@@ -68,9 +70,6 @@ public class Nota {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-
-
- 
  
 
 }

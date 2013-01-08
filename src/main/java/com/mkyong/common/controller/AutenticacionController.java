@@ -9,8 +9,7 @@ import java.io.PrintWriter;
 import java.net.URI;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.GetParameters;
-import modelo.PostParameters;
+import modelo.Autenticar;
 import modelo.Usuario;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
@@ -46,14 +45,10 @@ public class AutenticacionController implements Controller {
           }
            
           if (code != null){
-            PostParameters post = new PostParameters();  
-            GetParameters get = new GetParameters();
+            Autenticar autenticar = new Autenticar(); 
             AutenticacionManager insertar = new AutenticacionManager();
-            token = post.sendPostRequest(code); 
-            mail = get.sendGetRequest(token);
-            Usuario.getInstance().setToken(token);
-            Usuario.getInstance().setCorreo(mail);
-            insertar.insertarUsuario(mail);
+            autenticar.getAccesToken(code);
+            insertar.insertarUsuario(Usuario.getInstance().getCorreo());
             
             modelAndView = new ModelAndView("Autenticacion");
             modelAndView.addObject("autenticacion",code);                          

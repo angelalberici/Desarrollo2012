@@ -31,7 +31,7 @@ import org.springframework.web.servlet.mvc.Controller;
  */
 public class FileUploadController implements Controller {
 
-    String ruta = "C:\\Users\\Angel Alberici\\Desktop\\";
+    String ruta = "C:\\desarrollo\\";
     String correo = "";
     String idNota = "";
     Logger logger = Logger.getLogger("com.FileUploadController");

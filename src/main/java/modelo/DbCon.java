@@ -109,7 +109,7 @@ public class DbCon implements NotaDAO {
 
         } catch (Exception e) {
 //No existe la nota
-            logger.error("La nota: " + id + " no existe");
+            logger.error("La nota: " + id + " no existe",e);
             return null;
         }
 

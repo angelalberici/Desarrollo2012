@@ -39,7 +39,7 @@ public class AddNotaController extends AbstractController {
     protected ModelAndView handleRequestInternal(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Integer id = null;
-        String ruta = "C:\\Users\\Angel Alberici\\Downloads\\";
+        String ruta = "C:\\desarrollo\\";
 
         //descargar archivos
         if (request.getParameter("d") != null) {

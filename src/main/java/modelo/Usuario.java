@@ -5,6 +5,7 @@
 package modelo;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Usuario {
     private String code;
     private String folderID;
     private static Usuario usuarioInstance; 
+    private List <Libreta> libretas;
    
     
    public static Usuario getInstance() throws IOException {
@@ -29,9 +31,20 @@ public class Usuario {
 
         return null;
     }
+
+    public Usuario() {
+    }
     
     public String getCorreo() {
         return correo;
+    }
+
+    public List<Libreta> getLibretas() {
+        return libretas;
+    }
+
+    public void setLibretas(List<Libreta> libretas) {
+        this.libretas = libretas;
     }
 
     public void setCorreo(String correo) {

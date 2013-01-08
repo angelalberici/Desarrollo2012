@@ -4,6 +4,8 @@
  */
 package modelo;
 
+import java.util.List;
+
 /**
  *
  * @author Carlos
@@ -12,12 +14,24 @@ public class Libreta {
         private int id;
 	private String nombre;
 	private String usuario_id;
+        private List <Nota> notas;
 
     /**
      * @return the id
      */
     public int getId() {
         return id;
+    }
+
+    public Libreta() {
+    }
+
+    public List<Nota> getNotas() {
+        return notas;
+    }
+
+    public void setNotas(List<Nota> notas) {
+        this.notas = notas;
     }
 
     /**
