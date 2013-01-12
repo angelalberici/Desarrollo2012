@@ -32,11 +32,7 @@ public class AutenticacionController implements Controller {
             HttpServletResponse response) throws Exception {
             String  error = request.getParameter("error");
             String  code = request.getParameter("code");
-            String mail =""; 
-            String token =""; 
-            
-                     
-            
+  
         ModelAndView modelAndView = null;
           if (error != null){
              modelAndView = new ModelAndView("IraInicio");

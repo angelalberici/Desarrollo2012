@@ -109,17 +109,222 @@ public class DbCon implements NotaDAO {
 
         } catch (Exception e) {
 //No existe la nota
-            logger.error("La nota: " + id + " no existe",e);
+            logger.error("La nota: " + id + " no existe", e);
             return null;
         }
 
     }
 
+  
+    public void probarBaseDeDatos(String correo) {
+
+//        Usuario usuario = exportarBaseDeDatosDelUsuario(correo);
+
+        List<Libreta> list1 = new ArrayList<Libreta>();
+
+        Nota nota1 = new Nota();
+        nota1.setId(1);
+        nota1.setAdjuntos(null);
+        nota1.setTitulo("titulo1");
+        nota1.setTexto("texto1");
+        nota1.setLibreta_id(1);
+
+
+        List<Nota> notas = new ArrayList<Nota>();
+        notas.add(nota1);
+
+
+        Libreta lib1 = new Libreta();
+        lib1.setId(1);
+        lib1.setNombre("Libreta1");
+        lib1.setUsuario_id("legna@gmail.com");
+        lib1.setNotas(notas);
+
+        Libreta lib2 = new Libreta();
+        lib2.setId(2);
+        lib2.setNombre("Libreta2");
+        lib2.setUsuario_id("filloy@gmail.com");
+        lib2.setNotas(null);
+
+        list1.add(lib1);
+        list1.add(lib2);
+
+
+        Usuario usuario = new Usuario();
+
+        usuario.setCorreo("angelalberici@gmail.com");
+        usuario.setFolderID("123456");
+        usuario.setLibretas(list1);
+        importarBaseDeDatosDelUsuario(usuario);
+
+
+    }
+
+    public boolean importarBaseDeDatosDelUsuario(Usuario usuario) {
+
+        String sql = "delete from libreta where usuario_id='" + usuario.getCorreo() + "'";
+        try {
+            jdbcTemplate.update(sql);
+        } catch (Exception e) {
+            //Entra aqui cuando no hay nada que eliminar que no seria un problema o cuando el usuario no existe
+            e.printStackTrace();
+             logger.info("No se importó la data al usuario "+usuario.getCorreo());
+            return false;
+        }
+
+        //Se comienza a importar
+
+        for (Libreta l : usuario.getLibretas()) {
+            System.out.println("insert into libreta (id,nombre,usuario_id) values (" + l.getId() + ",'" + l.getNombre() + "','" + usuario.getCorreo() + "')");
+            try {
+                int personas = jdbcTemplate.update("insert into libreta (id,nombre,usuario_id) values (" + l.getId() + ",'" + l.getNombre() + "','" + usuario.getCorreo() + "')");
+            } catch (Exception e) {
+                //Ya existe la libreta para ese nombre y ese usuario
+            }
+
+            insertarNotas(l);
+
+            //Fin libreta
+        }
+         logger.info("Se ha importado la data al usuario correctamente"+usuario.getCorreo());
+        return true; 
+    }
+
     /**
-     * 
+     * Insertar notas 
+     * @param l 
+     */
+    public void insertarNotas(Libreta l) {
+        if (l.getNotas() != null) {
+            for (Nota n : l.getNotas()) {
+           
+                try {
+                    
+                    int personas = jdbcTemplate.update("insert into nota (id,titulo,texto,fecha,libreta_id) values(" + n.getId() + ",'" + n.getTitulo() + "','" + n.getTexto() + "', CURDATE(),"
+                            + n.getLibreta_id() + ")");
+
+                } catch (Exception e) {
+                    //Ya existe la nota para ese nombre y ese usuario
+                }
+                modificarAdjuntosDeNota(n.getId(), n.getAdjuntos());
+                modificarTagsDeNota(n.getId(), n.getTags());
+
+                //Fin Nota
+            }
+        }
+    }
+
+    /**
+     * Se devuelve un objeto usuario, que tiene todas las
+     * libretas,notas,adjuntos y tags, del usuario con el correo respectivo
+     *
+     * @param correo
+     * @return
+     */
+//    @Override
+    public Usuario exportarBaseDeDatosDelUsuario(String correo) {
+        Usuario usuario = new Usuario();
+        List<Map> datosUsuario = jdbcTemplate.queryForList("select * from usuario where correo='" + correo + "'");
+        for (Map row : datosUsuario) {
+            usuario.setCorreo((String) (row.get("correo")));
+            usuario.setFolderID((String) row.get("folder_id"));
+
+        }
+
+        List<Libreta> libretaList = new ArrayList<Libreta>();
+        List<Map> rows = jdbcTemplate.queryForList("select * from libreta where usuario_id='" + correo + "' order by nombre ");
+        for (Map row : rows) {
+            Libreta libreta = new Libreta();
+            libreta.setId((Integer) row.get("id"));
+            libreta.setNombre((String) row.get("nombre"));
+            libreta.setUsuario_id((String) row.get("usuario_id"));
+            libreta.setNotas(this.entregarNotasDeUnaLibretaConAdjuntosYTags(libreta.getId()));
+
+            libretaList.add(libreta);
+
+        }
+
+        usuario.setLibretas(libretaList);
+        return usuario;
+    }
+
+    /**
+     * Buscar todas las notas de una libreta y devolverlas como una lista
+     *
+     * @param libretaid
+     * @return
+     */
+//    @Override
+    public List<Nota> entregarNotasDeUnaLibretaConAdjuntosYTags(Integer libretaid) {
+
+
+        String sql = "SELECT id,titulo,texto,fecha FROM NOTA where libreta_id=" + libretaid;
+
+        List<Nota> listaNota = new ArrayList<Nota>();
+
+        List<Map> rows = jdbcTemplate.queryForList(sql);
+        for (Map row : rows) {
+            List<Tag> tags = new ArrayList<Tag>();
+            List<Adjunto> adjuntos = new ArrayList<Adjunto>();
+            Nota nota = new Nota();
+            nota.setId((Integer) (row.get("id")));
+            nota.setTitulo((String) row.get("titulo"));
+            nota.setLibreta_id(libretaid);
+            System.out.println("3. Nota: " + nota.getId());
+            if (nota.getTitulo().length() < 50) {
+                nota.setTitulo(nota.getTitulo().substring(0, nota.getTitulo().length()));
+            } else {
+                nota.setTitulo(nota.getTitulo().substring(0, 50) + "...");
+            }
+            nota.setTexto((String) row.get("texto"));
+            if (nota.getTexto().length() < 200) {
+                nota.setTexto(nota.getTexto().substring(0, nota.getTexto().length()));
+            } else {
+                nota.setTexto(nota.getTexto().substring(0, 200) + "...");
+            }
+
+            nota.setFecha(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format((Date) row.get("fecha")));
+//BUSCAR LOS TAGS DE LA NOTA
+            sql = "select t.* from nota_tag nt, tag t where t.nombre=nt.tag_nombre and nt.nota_id=" + nota.getId();
+            rows = jdbcTemplate.queryForList(sql);
+            for (Map row2 : rows) {
+
+                Tag tag = new Tag();
+                tag.setNombre((String) (row2.get("nombre")));
+                System.out.println("4. Tag: " + tag.getNombre());
+                tags.add(tag);
+
+            }
+            nota.setTags(tags);
+//BUSCAR LOS ADJUNTOS DE LA NOTA
+            sql = "select id,nombre from adjunto where nota_id=" + nota.getId();
+            rows = jdbcTemplate.queryForList(sql);
+            for (Map row3 : rows) {
+                Adjunto adjunto = new Adjunto();
+                adjunto.setId((String) (row3.get("id")));
+                adjunto.setNombre((String) (row3.get("nombre")));
+                adjunto.setNota_id(nota.getId() + "");
+                adjuntos.add(adjunto);
+
+            }
+            nota.setAdjuntos(adjuntos);
+
+            logger.info("Se entregó correctamente la nota: " + nota.getId() + ", fecha: " + nota.getFecha() + ", título: " + nota.getTitulo());
+
+//AÑADIR LA NOTA A LA LISTA
+
+            listaNota.add(nota);
+
+        }
+        logger.info("Se entregaron correctmanete las notas de la libreta: " + libretaid);
+        return listaNota;
+    }
+
+    /**
+     *
      * @param palabra, representa la palabra que coloca en el buscador
      * @param correo el correo del usuario
-     * @return 
+     * @return
      */
     @Override
     public List<Nota> entregarNotasBusqueda(String palabra, String correo) {
@@ -308,7 +513,9 @@ public class DbCon implements NotaDAO {
 //            logger.debug("delete from nota_tag where nota_id=(SELECT max( id ) FROM nota)");
             if (notaid != null) {
                 jdbcTemplate.update("delete from nota_tag where nota_id=" + notaid);
+              
             } else {
+                
                 jdbcTemplate.update("delete from nota_tag where nota_id=(SELECT max( id ) FROM nota)");
             }
             for (Tag tag : tags) {
@@ -317,6 +524,7 @@ public class DbCon implements NotaDAO {
                     try {
                         jdbcTemplate.update("insert into tag(nombre) values ('" + tag.getNombre().replaceAll("\\s", "") + "')");
                         actualizarFecha(notaid);
+                        
                     } catch (Exception e) {
                         logger.debug("Ya existe tag con ese id:" + tag.getNombre());
                         //Si ya existe tag, se genera un error pero con controlar la excepcion se soluciona el problema
@@ -375,7 +583,7 @@ public class DbCon implements NotaDAO {
         try {
             return jdbcTemplate.update("delete from adjunto where id='" + adjuntoID + "'");
         } catch (Exception e) {
-            logger.info("Error al intentar borrar el adjunto con ID "+adjuntoID);
+            logger.info("Error al intentar borrar el adjunto con ID " + adjuntoID);
             return 0;
 
         }

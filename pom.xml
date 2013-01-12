@@ -8,30 +8,43 @@
     <name>SpringMVC Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <dependencies>
-<!-- <dependency> <groupId>junit</groupId> <artifactId>junit</artifactId>
-<version>3.8.1</version> <scope>test</scope> </dependency> -->
+        
+          <!-- JUNIT  -->
+        <dependency> 
+            <groupId>junit</groupId> 
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version> 
+            <scope>test</scope> 
+        </dependency> 
 
-<!-- Spring framework   -->
+        <!-- Spring framework   -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring</artifactId>
             <version>2.5.6</version>
         </dependency>
+        
+        <dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-test</artifactId>
+	<version>2.5</version>
+</dependency>
+            
       
-<!-- Spring MVC framework -->
+        <!-- Spring MVC framework -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>2.5.6</version>
         </dependency>
 
-<dependency>
-	<groupId>log4j</groupId>
-	<artifactId>log4j</artifactId>
-	<version>1.2.17</version>
-</dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
 
-<!-- JSTL -->
+        <!-- JSTL -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
@@ -44,7 +57,7 @@
             <version>1.1.2</version>
         </dependency>
 
-<!-- for compile only, your container should have this -->
+        <!-- for compile only, your container should have this -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -84,43 +97,48 @@
             <artifactId>google-api-client-appengine</artifactId>
             <version>1.10.3-beta</version>
         </dependency>
-        
-        
-        
-                <dependency>
-		<groupId>commons-fileupload</groupId>
-		<artifactId>commons-fileupload</artifactId>
-		<version>1.2.1</version>
-	</dependency>
+      
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.2.1</version>
+        </dependency>
 
-	<!-- Apache Commons Upload yo cambie esta dependencia (la version) y funciono  --> 
-	<dependency>
-		<groupId>commons-io</groupId>
-		<artifactId>commons-io</artifactId>
-		<version>1.3.1</version>
-	</dependency>
+        <!-- Apache Commons Upload yo cambie esta dependencia (la version) y funciono  --> 
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.3.1</version>
+        </dependency>
        
         <!-- XStream para los XML  --> 
         
         <dependency>
-	<groupId>org.codehaus.mojo</groupId>
-	<artifactId>exec-maven-plugin</artifactId>
-	<version>1.2.1</version>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.2.1</version>
         </dependency>
         
-                   <dependency>
-                    <groupId>xstream</groupId>
-                    <artifactId>xstream</artifactId>
-                    <version>1.2.2</version>
-                </dependency>
+        <dependency>
+            <groupId>xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.2.2</version>
+        </dependency>
          
-                   <!-- Manejo de JSON  -->        
-                <dependency>
-        <groupId>org.json</groupId>
-        <artifactId>json</artifactId>
-        <version>20070829</version>
-      </dependency>
+        <!-- Manejo de JSON  -->        
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20070829</version>
+        </dependency>
         
+        <!-- MOCK  -->  
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>3.0</version>
+            <scope>test</scope>
+        </dependency>
         
         
     </dependencies>
